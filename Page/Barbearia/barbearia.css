@@ -452,17 +452,29 @@ main {
 }
 
 .info-card-esquerda {
+  margin-right: 20px;
   margin-top: 40px;
   width: 758px;
   height: 1073px;
 }
+
+/* Grid dos cards de serviço: 2 colunas, igual à referência */
 .Servicos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+}
+
+.servicos-esquerda,
+.servicos-direita {
   display: flex;
+  flex-direction: column;
 }
 
 .Servico {
   display: flex;
-  width: 360px;
+  width: 100%;
+  max-width: 375px;
   background-color: var(--secondary-black);
   border-radius: 15px;
   border: 3px solid var(--gray-01);
@@ -470,32 +482,67 @@ main {
   gap: 16px;
   align-items: center;
   transition: all 0.4s ease;
+  padding: 10px 15px 10px 0;
 }
 
 .Servico:hover {
   transform: translateY(-10px);
 }
 
+/* Bloco de texto do card (nome, descrição, preço+reserva) */
+.contDesc {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  height: 110px; /* mesma altura da imagem do serviço, alinha tudo */
+  padding-top: 10px;
+}
+
+.divDescricao {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.Nome {
+  color: var(--white);
+  font-weight: var(--font-semi-bold);
+  font-size: var(--font-size-16);
+}
+
+.Descricao {
+  color: var(--gray-03);
+  font-size: var(--font-size-14);
+  line-height: 1.3;
+}
+
+.Preco {
+  color: var(--light-purple);
+  font-weight: var(--font-semi-bold);
+}
+
+/* Linha final do card: Preço à esquerda, Reserva à direita */
+.linha-preco-reserva {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .btnReserva {
   background-color: var(--gray-01);
   width: 90px;
-  margin-left: 140px;
   border: none;
   border-radius: 10px;
   color: var(--white);
   padding: 10px;
+  cursor: pointer;
   transition: all 0.4s ease;
 }
 
 .btnReserva:hover {
   background-color: var(--gray-02);
-  width: 90px;
-  margin-left: 140px;
-  border: none;
-  border-radius: 10px;
-  color: var(--white);
-  padding: 10px;
-  transition: all 0.4s ease;
   cursor: pointer;
 }
 
@@ -503,18 +550,10 @@ main {
   color: var(--white);
 }
 
-.Descricao {
-  color: var(--gray-03);
-  font-size: var(--font-size-14);
-}
-
-.Preco {
-  color: var(--light-purple);
-}
-
 /*Imagens*/
 
 .imagemServCont {
+  margin-right: 10px;
   overflow: hidden;
 }
 
@@ -749,5 +788,9 @@ main {
     /* Diminui o tamanho do botão */
     font-size: var(--font-size-12);
     /* Diminui a fonte do botão */
+  }
+
+  .Servicos {
+    grid-template-columns: 1fr;
   }
 }
