@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="barbearia.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Sora:wght@100..800&display=swap"
+      rel="stylesheet" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <!-- topo do site (header) -->
+    <header class="topo">
+      <div class="logo">
+        <img src="../../img/logo/Tesoura.svg" alt="" />
+        <img src="../../img/logo/nomeLogo.svg" alt="" />
+      </div>
+
+      <div class="busca-container">
+        <input type="text" placeholder="Buscar Barbearias" class="buscBarb" />
+        <button class="btnPesquisa"></button>
+      </div>
+
+      <div class="div_perfil">
+        <img src="../../img/icon/agenda.svg" alt="" />
+        <h4 id="agendamentos-texto">Agendamentos</h4>
+
+        <div class="perfil-user">
+          <img src="../../img/logo/perfil.svg" alt="" />
+          <h4 id="nomeperfil">Miguel Silva Mendes</h4>
+        </div>
+      </div>
+    </header>
+
+    <div class="container-reserva">
+      <div class="title-container-reserva">
+        <h3>Fazer Reserva</h3>
+        <div>
+          <button class="botao-fechar-container-reserva">X</button>
+        </div>
+      </div>
+      <div class="calendario">
+        <div class="cabecalho-calendario">
+          <button class="seta-calendario" id="btn-prev">&lt;</button>
+          <h4 class="H4Calen" id="mes-ano-texto">Julho 2026</h4>
+          <button class="seta-calendario" id="btn-next">&gt;</button>
+        </div>
+
+        <div class="dias-semana">
+          <span>D</span> <span>S</span> <span>T</span> <span>Q</span>
+          <span>Q</span> <span>S</span> <span>S</span>
+        </div>
+
+        <div class="dias-mes" id="container-dias"></div>
+      </div>
+
+      <div class="container-horarios" id="wrapper-horarios">
+        <p class="titulo-horarios">Horários disponíveis</p>
+        <div class="grade-horarios" id="container-lista-horarios"></div>
+      </div>
+
+      <div>
+        <button id="botao-confirmar-reserva">Confirmar</button>
+      </div>
+    </div>
+
+    <!-- Meio do site (Main) -->
+
+    <main class="container">
+      <article class="info-card-esquerda">
+        <!-- Imagem da Barbearia-->
+
+        <div class="imagem7">
+          <img
+            class="imagem-barbearia"
+            src="../../img/logo/imagem7.svg"
+            alt="Imagem da barbearia" />
+        </div>
+        <!-- Descrição da Barbearia-->
+
+        <section class="descricaoBarbe">
+          <div>
+            <h2>Vintage Barber</h2>
+            <div class="descricaoNome">
+              <img
+                class="LocalIMG"
+                src="../../img/icon/local.svg"
+                alt="Icone de Localização" />
+              <p>Avenida São Sebastião, 357, São Paulo</p>
+            </div>
+          </div>
+
+          <!-- Avaliação -->
+
+          <div class="Avaliacao">
+            <div class="notaAvaliacao">
+              <img
+                class="Estrela"
+                src="../../img/icon/estrela.svg"
+                alt="Icone de estrela" />
+              <p class="notaAv">5,0</p>
+            </div>
+
+            <h6 class="quantidadeAv">889 avaliações</h6>
+          </div>
+        </section>
+
+        <!-- Serviços -->
+        <br />
+        <h3>Serviços</h3>
+
+        <article class="Servicos">
+          <div class="servicos-esquerda">
+            <div class="Servico">
+              <div class="imagemServCont">
+                <img
+                  class="imagemServico"
+                  src="../../img/Servicos/CortedeCabelo.jpg"
+                  alt="Servico1" />
+                <!-- Imagem do Serviço -->
+              </div>
+              <div class="contDesc">
+                <div class="divDescricao">
+                  <p class="Nome">Corte de Cabelo</p>
+                  <!-- Nome do Serviço -->
+                  <p class="Descricao">
+                    Estilo personalizado com as últimas tendências.
+                  </p>
+                  <!-- Descrição do Serviço -->
+                  <p class="Preco">R$ 50,00</p>
+                  <!-- Preço do Serviço -->
+                </div>
+                <button class="btnReserva" onclick="Reservar()">
+                  Reservar
+                </button>
+              </div>
+            </div>
+
+            <div class="Servico">
+              <div class="imagemServCont">
+                <img
+                  class="imagemServico"
+                  src="../../img/Servicos/Barba.jpg"
+                  alt="Servico2" />
+              </div>
+              <div class="contDesc">
+                <div class="divDescricao">
+                  <p class="Nome">Barba</p>
+                  <p class="Descricao">
+                    Modelagem completa para destacar sua masculinidade.
+                  </p>
+                  <p class="Preco">R$ 45,00</p>
+                </div>
+                <button class="btnReserva" onclick="Reservar()">
+                  Reservar
+                </button>
+              </div>
+            </div>
+
+            <div class="Servico">
+              <div class="imagemServCont">
+                <img
+                  class="imagemServico"
+                  src="../../img/Servicos/Pezinho.jpg"
+                  alt="Servico3" />
+              </div>
+              <div class="contDesc">
+                <div class="divDescricao">
+                  <p class="Nome">Pézinho</p>
+                  <p class="Descricao">
+                    Acabamento perfeito para um visual renovado.
+                  </p>
+                  <p class="Preco">R$ 20,00</p>
+                </div>
+                <button class="btnReserva" onclick="Reservar()">
+                  Reservar
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="servicos-direita">
+            <div class="Servico">
+              <div class="imagemServCont">
+                <img
+                  class="imagemServico"
+                  src="../../img/Servicos/Sombrancelha.jpg"
+                  alt="Servico4" />
+              </div>
+              <div class="contDesc">
+                <div class="divDescricao">
+                  <p class="Nome">Sobrancelha</p>
+                  <p class="Descricao">
+                    Expressão acentuada com modelagem precisa.
+                  </p>
+                  <p class="Preco">R$ 25,00</p>
+                </div>
+                <button class="btnReserva" onclick="Reservar()">
+                  Reservar
+                </button>
+              </div>
+            </div>
+
+            <div class="Servico">
+              <div class="imagemServCont">
+                <img
+                  class="imagemServico"
+                  src="../../img/Servicos/Massagem.jpg"
+                  alt="Servico5" />
+              </div>
+              <div class="contDesc">
+                <div class="divDescricao">
+                  <p class="Nome">Massagem</p>
+                  <p class="Descricao">
+                    Relaxe e renove com nossos tratamentos revitalizantes.
+                  </p>
+                  <p class="Preco">R$ 35,00</p>
+                </div>
+                <button class="btnReserva" onclick="Reservar()">
+                  Reservar
+                </button>
+              </div>
+            </div>
+
+            <div class="Servico">
+              <div class="imagemServCont">
+                <img
+                  class="imagemServico"
+                  src="../../img/Servicos/Hidratacao.jpg"
+                  alt="Servico6" />
+              </div>
+              <div class="contDesc">
+                <div class="divDescricao">
+                  <p class="Nome">Hidratação</p>
+                  <p class="Descricao">Fios hidratados, macios e brilhantes.</p>
+                  <p class="Preco">R$ 30,00</p>
+                </div>
+                <button class="btnReserva" onclick="Reservar()">
+                  Reservar
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+      </article>
+
+      <!-- aside da página Barbearia -->
+
+      <aside class="info-card-direita">
+        <div class="imagemServCont">
+          <img
+            class="imagemMapa"
+            src="../../img/Mapa/MapaBarbeariaEX.png"
+            alt="Mapa1" />
+        </div>
+
+        <div class="infoBasica">
+          <img src="../../img/logo/imagem7.svg" alt="imagem7" />
+          <div class="nomeelocal">
+            <p class="nome">Vintage Barber</p>
+            <p class="local">Avenida São Sebastião, 357, São Paulo - SP</p>
+          </div>
+        </div>
+
+        <div class="sobrenos">
+          <h2>SOBRE NÓS</h2>
+          <p>
+            Bem-vindo à Vintage Barber, onde tradição encontra estilo. Nossa
+            equipe de mestres barbeiros transforma cortes de cabelo e barbas em
+            obras de arte. Em um ambiente acolhedor, promovemos confiança,
+            estilo e uma comunidade unida.
+          </p>
+        </div>
+
+        <div class="telefoneCopy">
+          <div>
+            <p class="tel">
+              <img src="../../img/icon/telefone.svg" alt="icone Telefone" />
+              (11) 98204-5108
+            </p>
+            <button>Copiar</button>
+          </div>
+
+          <div>
+            <p class="tel">
+              <img src="../../img/icon/telefone.svg" alt="icone Telefone" />
+              (11) 99503-2351
+            </p>
+            <button class="copyButton">Copiar</button>
+          </div>
+        </div>
+
+        <div class="horarios-Da-Semana">
+          <div class="coluna1">
+            <p>Segunda</p>
+            <p>Terça-Feira</p>
+            <p>Quarta-Feira</p>
+            <p>Quinta-Feira</p>
+            <p>Sexta-Feira</p>
+            <p>Sábado</p>
+            <p>Domingo</p>
+          </div>
+
+          <div class="coluna2">
+            <p>Fechado</p>
+            <p>09:00 - 21:00</p>
+            <p>09:00 - 21:00</p>
+            <p>09:00 - 21:00</p>
+            <p>09:00 - 21:00</p>
+            <p>08:00 - 17:00</p>
+            <p>Fechado</p>
+          </div>
+        </div>
+        <div class="lop">
+          <div class="parceria">
+            <p>Em parceria com</p>
+          </div>
+          <div class="logoP">
+            <img
+              src="../../img/logo/nomeLogo.svg"
+              alt="Logo do BarberExpress" />
+          </div>
+        </div>
+      </aside>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>

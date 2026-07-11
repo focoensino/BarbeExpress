@@ -1,0 +1,753 @@
+:root {
+  /* cores */
+  --dark-purple: #22174d;
+  --primary-purple: #003cff;
+
+  --background-black: #141518;
+  --secondary-black: #1a1b1f;
+
+  --gray-01: #26272b;
+  --gray-02: #4e525b;
+  --gray-03: #838896;
+
+  --white: #ffffff;
+
+  --red: #ff4444;
+  --dark-red: #2f1f1f;
+
+  --light-purple: #8162ff;
+
+  /* fontes */
+  --font-primary: "Sora", sans-serif;
+
+  /* pesos */
+  --font-thin: 100;
+  --font-extra-light: 200;
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semi-bold: 600;
+  --font-bold: 700;
+  --font-extra-bold: 800;
+
+  /* tamanhos */
+  --font-size-8: 8px;
+  --font-size-10: 10px;
+  --font-size-12: 12px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-20: 20px;
+  --font-size-24: 24px;
+  --font-size-30: 30px;
+}
+
+/* inicio do css */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  font-family: var(--font-primary);
+}
+
+body {
+  background-color: var(--background-black);
+}
+
+/* topo da tela Home */
+.topo {
+  width: 100%;
+  height: 72px;
+  background: var(--background-black);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 32px;
+
+  border-bottom: 1px solid var(--gray-01);
+}
+
+/* LOGO */
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* BUSCA */
+
+.busca-container {
+  flex: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  max-width: 700px;
+  margin: 0 40px;
+}
+
+.buscBarb {
+  width: 100%;
+  height: 36px;
+
+  background: var(--secondary-black);
+  border: 1px solid var(--gray-01);
+
+  border-radius: 8px 0 0 8px;
+
+  color: var(--white);
+
+  padding: 0 15px;
+
+  outline: none;
+}
+
+.buscBarb::placeholder {
+  color: var(--gray-03);
+}
+
+.btnPesquisa {
+  width: 40px;
+  height: 36px;
+
+  border: none;
+
+  background-color: var(--primary-purple);
+  background-image: url("../../img/icon/lupa.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 14px;
+
+  border-radius: 0 8px 8px 0;
+
+  cursor: pointer;
+}
+
+/* PERFIL */
+
+.div_perfil {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+#agendamentos-texto {
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.perfil-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.perfil-user img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+#nomeperfil {
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.container-reserva {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 370px;
+  height: 100vh;
+  background-color: var(--background-black);
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  padding: 10px 20px 20px 20px;
+  box-sizing: border-box;
+  display: none;
+}
+
+.container-reserva {
+  width: 370px;
+  height: 100%;
+  align-items: center;
+  background-color: var(--background-black);
+}
+
+.container-reserva.ativo {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.title-container-reserva {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 0px;
+  color: var(--white);
+}
+
+.title-container-reserva.show {
+  display: block;
+}
+
+.title-container-reserva {
+  display: flex;
+  width: 370px;
+  height: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-top: 20px;
+  color: var(--white);
+}
+
+.botao-fechar-container-reserva {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  margin-left: 180px;
+}
+
+#botao-confirmar-reserva {
+  background-color: var(--primary-purple);
+  color: white;
+  border-radius: 10px;
+  border: none;
+  width: 330px;
+  height: 36px;
+}
+
+/* --- CONTAINER PRINCIPAL DO CALENDÁRIO --- */
+.calendario {
+  width: 100%;
+  max-width: 330px;
+  background-color: var(--secondary-black); /* Cor escura padrão do seu app */
+  border: 1px solid var(--gray-01);
+  border-radius: 12px;
+  padding: 15px;
+  color: var(--white);
+  margin: 0 auto; /* Centraliza no menu lateral */
+  text-align: center;
+}
+
+.cabecalho-calendario {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 0 5px;
+}
+
+.H4Calen {
+  font-size: var(--font-size-16);
+  font-weight: var(--font-bold);
+  margin: 0;
+  color: var(--white);
+}
+
+.seta-calendario {
+  background: none;
+  border: none;
+  color: var(--gray-03);
+  font-size: var(--font-size-18);
+  font-weight: var(--font-bold);
+  cursor: pointer;
+  padding: 5px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.seta-calendario:hover:not(:disabled) {
+  color: var(--white);
+  background-color: var(--gray-01);
+}
+
+.seta-calendario:disabled {
+  opacity: 0.2 !important;
+  cursor: not-allowed !important;
+  background: none !important;
+}
+
+.dias-semana {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  color: var(--gray-03);
+  font-weight: var(--font-semi-bold);
+  font-size: var(--font-size-12);
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.dias-mes {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  justify-items: center;
+}
+
+.dias-mes span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  font-size: var(--font-size-14);
+  transition: background 0.2s ease;
+}
+
+.dias-mes span.dia-clicavel {
+  color: var(--white);
+  cursor: pointer;
+}
+
+.dias-mes
+  span.dia-clicavel:not(.desabilitado):not(.hoje):not(.selecionado):hover {
+  background-color: var(--gray-01);
+}
+
+.dia-clicavel.desabilitado {
+  color: var(--gray-02) !important;
+  cursor: not-allowed !important;
+  opacity: 0.3;
+  background: none !important;
+}
+
+.dia-clicavel.hoje {
+  background-color: #28a745 !important;
+  color: var(--white) !important;
+  font-weight: var(--font-bold);
+}
+
+.dia-clicavel.selecionado {
+  background-color: var(--primary-purple) !important;
+  color: var(--white) !important;
+  font-weight: var(--font-bold);
+}
+
+.container-horarios {
+  width: 100%;
+  max-width: 330px;
+  margin: 15px auto 0 auto;
+  text-align: left;
+}
+
+.titulo-horarios {
+  color: var(--gray-03);
+  font-size: var(--font-size-12);
+  font-weight: var(--font-semi-bold);
+  margin-bottom: 10px;
+  padding-left: 5px;
+}
+
+.grade-horarios {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 5px;
+  white-space: nowrap;
+}
+
+.grade-horarios::-webkit-scrollbar {
+  height: 4px;
+}
+.grade-horarios::-webkit-scrollbar-thumb {
+  background: var(--gray-01);
+  border-radius: 10px;
+}
+
+.btn-horario {
+  background-color: transparent;
+  border: 1px solid var(--gray-01);
+  color: var(--white);
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: var(--font-size-14);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-horario:hover {
+  background-color: var(--gray-01);
+}
+
+.btn-horario.selecionado {
+  background-color: var(--primary-purple) !important;
+  border-color: var(--primary-purple) !important;
+  color: var(--white) !important;
+  font-weight: var(--font-bold);
+}
+/*Meio (Main)*/
+
+main {
+  color: var(--white);
+}
+
+.descricaoBarbe {
+  margin: 5px;
+  display: flex;
+  flex-direction: row;
+  gap: 200px;
+}
+
+.descricaoNome {
+  width: 428px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.Avaliacao {
+  background-color: var(--secondary-black);
+  padding: 5px;
+  border-radius: 5px;
+  width: 121px;
+  height: 68px;
+}
+
+.notaAvaliacao {
+  margin-left: 25%;
+  margin-bottom: 7.5px;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  font-size: var(--font-size-20);
+  font-weight: var(--font-semi-bold);
+}
+
+.quantidadeAv {
+  margin-left: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: var(--font-light);
+  width: 81px;
+  height: 17px;
+}
+
+/* Serviços */
+
+.info-card-esquerda h3 {
+  color: var(--gray-03);
+  font-weight: var(--font-bold);
+}
+
+.info-card-esquerda {
+  margin-top: 40px;
+  width: 758px;
+  height: 1073px;
+}
+.Servicos {
+  display: flex;
+}
+
+.Servico {
+  display: flex;
+  width: 360px;
+  background-color: var(--secondary-black);
+  border-radius: 15px;
+  border: 3px solid var(--gray-01);
+  margin: 17.5px;
+  gap: 16px;
+  align-items: center;
+  transition: all 0.4s ease;
+}
+
+.Servico:hover {
+  transform: translateY(-10px);
+}
+
+.btnReserva {
+  background-color: var(--gray-01);
+  width: 90px;
+  margin-left: 140px;
+  border: none;
+  border-radius: 10px;
+  color: var(--white);
+  padding: 10px;
+  transition: all 0.4s ease;
+}
+
+.btnReserva:hover {
+  background-color: var(--gray-02);
+  width: 90px;
+  margin-left: 140px;
+  border: none;
+  border-radius: 10px;
+  color: var(--white);
+  padding: 10px;
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+
+.Nome {
+  color: var(--white);
+}
+
+.Descricao {
+  color: var(--gray-03);
+  font-size: var(--font-size-14);
+}
+
+.Preco {
+  color: var(--light-purple);
+}
+
+/*Imagens*/
+
+.imagemServCont {
+  overflow: hidden;
+}
+
+.imagemServico {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 15px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 7px;
+}
+
+.imagemMapa {
+  margin-top: 15px;
+  border-radius: 15px;
+  width: 346px;
+  height: 180px;
+}
+
+.Estrela {
+  width: 20px;
+}
+
+.info-card-direita {
+  width: 386px;
+  background: var(--secondary-black);
+  border-radius: 15px;
+  padding: 16px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.infoBasica {
+  background-color: var(--secondary-black);
+  position: absolute;
+  top: 25%;
+  display: flex;
+  border-radius: 10px;
+  padding: 5px;
+  margin-left: 17.5px;
+}
+
+.infoBasica img {
+  width: 35px;
+  height: 35px;
+  border-radius: 15px;
+}
+
+.infoBasica .banner {
+  width: 100%;
+  height: 165px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.info {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  background: rgba(20, 20, 20, 0.9);
+  padding: 10px 14px;
+  border-radius: 10px;
+}
+
+.info img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+}
+
+.nome {
+  font-weight: var(--font-bold);
+  font-size: var(--font-size-18);
+}
+
+.local {
+  color: var(--gray-03);
+  font-size: var(--font-size-12);
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+
+  padding: 40px;
+}
+
+.imagem-barbearia {
+  width: 758px;
+  height: 487px;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.sobrenos {
+  border-bottom: 1px solid #2d2d2d;
+  padding-bottom: 20px;
+}
+
+.sobrenos h3 {
+  margin-bottom: 10px;
+}
+
+.sobrenos p {
+  color: var(--gray-03);
+  line-height: 1.6;
+}
+
+.telefoneCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.telefoneCopy div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.telefoneCopy .tel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.telefoneCopy button {
+  width: 72px;
+  height: 34px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: var(--gray-01);
+  color: var(--white);
+
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.telefoneCopy button:hover {
+  background: var(--gray-02);
+}
+
+.horarios-Da-Semana {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 20px 0;
+
+  border-top: 1px solid #2d2d2d;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.coluna1,
+.coluna2 {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.coluna1 {
+  color: var(--gray-03);
+}
+
+.coluna2 {
+  text-align: right;
+}
+
+.coluna1 p,
+.coluna2 p {
+  margin: 0;
+}
+
+.lop {
+  margin-top: auto;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.parceria {
+  color: var(--gray-03);
+  font-size: var(--font-size-14);
+}
+
+.logoP img {
+  height: 28px;
+  width: auto;
+}
+/*Final do Meio (Main)*/
+
+/* --- ADAPTAÇÃO PARA CELULAR (MEDIA QUERY) --- */
+@media (max-width: 600px) {
+  .topo {
+    height: 70px;
+    /* Diminui a altura do topo */
+    padding: 0 16px;
+    /* Reduz o espaço nas laterais */
+  }
+
+  .logo img {
+    height: 24px;
+    /* Diminui o tamanho das logos */
+  }
+
+  .div_perfil {
+    gap: 12px;
+    /* Aproxima os itens do perfil */
+  }
+
+  #agendamentos-texto {
+    display: none;
+    /* Esconde o texto para poupar espaço */
+  }
+
+  #perfil {
+    padding: 6px 12px;
+    /* Diminui o tamanho do botão */
+    font-size: var(--font-size-12);
+    /* Diminui a fonte do botão */
+  }
+}

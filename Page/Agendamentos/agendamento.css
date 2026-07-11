@@ -1,0 +1,650 @@
+:root {
+  /* ===== CORES ===== */
+  --dark-purple: #22174d;
+  --primary-purple: #003cff;
+  --light-purple: #8162ff;
+
+  --background-black: #141518;
+  --secondary-black: #1a1b1f;
+
+  --gray-01: #26272b;
+  --gray-02: #4e525b;
+  --gray-03: #838896;
+
+  --white: #ffffff;
+  --red: #ff4444;
+  --dark-red: #2f1f1f;
+
+  /* ===== FONTES ===== */
+  --font-primary: "Sora", sans-serif;
+  --font-secondary: "Nunito", sans-serif;
+
+  /* ===== PESOS ===== */
+  --font-thin: 100;
+  --font-extra-light: 200;
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semi-bold: 600;
+  --font-bold: 700;
+  --font-extra-bold: 800;
+
+  /* ===== TAMANHOS ===== */
+  --font-size-8: 8px;
+  --font-size-10: 10px;
+  --font-size-12: 12px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-20: 20px;
+  --font-size-24: 24px;
+  --font-size-30: 30px;
+}
+
+/* ===== RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-primary);
+}
+
+body {
+  background: var(--background-black);
+  color: var(--white);
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* ===== MODAL ===== */
+.modal-cancelar-agendamento {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  width: 318px;
+  padding: 20px;
+
+  background-color: var(--background-black);
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+.modal-texto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+
+  width: 278px;
+}
+
+#agendamentotopo {
+   text-decoration: none;
+   color: var(--white);
+ 
+
+}
+
+
+.modal-cancelar-agendamento h2 {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-bold);
+  line-height: 140%;
+  text-align: center;
+}
+
+.modal-cancelar-agendamento p {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-regular);
+  line-height: 140%;
+  text-align: center;
+  color: var(--gray-03);
+}
+
+.modal-cancelar-agendamento {
+  display: none; /* Adicione esta linha */
+  /* resto das propriedades... */
+}
+.botoes {
+  display: flex;
+  gap: 10px;
+}
+
+.fechar-modal {
+  width: 134px;
+  height: 36px;
+
+  border: none;
+  border-radius: 10px;
+
+  background-color: var(--gray-01);
+  color: var(--white);
+
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-bold);
+}
+
+.cancelar-agendamento {
+  width: 134px;
+  height: 36px;
+
+  border: none;
+  border-radius: 10px;
+
+  background-color: var(--red);
+  color: var(--white);
+
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-bold);
+}
+
+/* ===== TOPO ===== */
+.topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  height: 96px;
+  padding: 0 40px;
+
+  background: var(--background-black);
+  border-bottom: 1px solid #2e2e2e;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  margin-left: 128px;
+  margin-right: 40px;
+}
+
+/* ===== BARRA DE PESQUISA ===== */
+.pesquisa {
+    position: relative;
+    width: 535px;
+    margin-right: 40px; /* aumenta o espaço */
+}
+.PesqBarb {
+  width: 100%;
+  height: 36px;
+
+  padding: 12px 45px 12px 12px;
+
+  background-color: var(--secondary-black);
+  border: 1px solid var(--gray-01);
+  border-radius: 10px;
+  color: var(--white);
+}
+
+.divPesq {
+  position: absolute;
+
+  right: 0;
+  top: 0;
+
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: var(--primary-purple);
+  border-radius: 10px;
+}
+
+.imgLup {
+  width: 20px;
+  height: 20px;
+}
+
+.imgLup {
+  width: 20px;
+  height: 20px;
+}
+
+/* ===== PERFIL ===== */
+.div-perfil {
+  display: flex;
+  align-items: center;
+  margin-right: 128px;
+}
+
+.icone-agenda {
+  width: 20px;
+  height: 20px;
+}
+
+.div-perfil h4 {
+  margin-left: 8px;
+  margin-right: 40px;
+
+  font-size: var(--font-size-14);
+  font-weight: var(--font-regular);
+}
+.div-perfil h4 {
+  margin-left: 10px;
+  margin-right: 30px;
+
+  font-size: var(--font-size-14);
+  font-weight: var(--font-regular);
+}
+
+.perfil {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#foto-do-perfil {
+  width: 36px;
+  height: 36px;
+
+  border-radius: 50%;
+}
+
+#nome-do-perfil {
+  margin-left: 8px;
+  margin-right: 40px;
+
+  font-size: var(--font-size-16);
+  font-weight: var(--font-regular);
+}
+
+/* ===== CONTEÚDO PRINCIPAL ===== */
+.centro {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* ===== AGENDAMENTOS ===== */
+.agendamentos-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+  width: 444px;
+}
+
+.agendamentos {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.agendamentos h1 {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-24);
+}
+
+.grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.grupo > h2 {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-12);
+  color: var(--gray-03);
+}
+
+/* ===== CARDS DE AGENDAMENTO ===== */
+.card-agendamento {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  min-height: 111px;
+  padding: 18px;
+
+  background: var(--secondary-black);
+  border: 1px solid var(--gray-01);
+  border-radius: 12px;
+}
+
+.lado-esquerdo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lado-esquerdo h3 {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-16);
+}
+
+.status {
+  width: fit-content;
+  padding: 3px 10px;
+
+  border-radius: 100px;
+
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-12);
+}
+
+.status.confirmado {
+  background: var(--dark-purple);
+  color: var(--primary-purple);
+}
+
+.status.finalizado {
+  background: #2e2f33;
+  color: #8e939e;
+}
+
+.barbearia-mini {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.barbearia-mini img {
+  width: 24px;
+  height: 24px;
+
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.barbearia-mini span {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-14);
+}
+
+.lado-direito {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  width: 90px;
+  min-height: 75px;
+
+  border-left: 1px solid #2a2a2a;
+}
+
+.lado-direito span {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-12);
+  color: var(--gray-03);
+}
+
+.lado-direito h2 {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-24);
+}
+
+/* ===== CARD DE INFORMAÇÕES ===== */
+.info-card {
+  position: relative;
+
+  width: 460px;
+  margin-top: 76px;
+  padding: 12px;
+
+  background: var(--secondary-black);
+  border: 1px solid var(--gray-01);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.banner {
+  display: block;
+
+  width: 100%;
+  height: 205px;
+
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.cabecalho {
+  position: absolute;
+  top: 108px;
+  left: 18px;
+  right: 18px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 10px 14px;
+
+  background: var(--secondary-black);
+  border-radius: 12px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.45);
+}
+
+.cabecalho img {
+  width: 42px;
+  height: 42px;
+
+  border-radius: 1500px;
+}
+
+.cabecalho h3 {
+  margin: 0 0 4px;
+
+  font-size: var(--font-size-18);
+  font-weight: var(--font-bold);
+  line-height: 1;
+}
+
+.cabecalho p {
+  margin: 0;
+
+  font-size: 13px;
+  color: var(--gray-03);
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dados {
+  min-width: 0;
+}
+
+.dados h3 {
+  margin: 0 0 3px;
+
+  font-size: 15px;
+  font-weight: var(--font-semi-bold);
+  line-height: 1.2;
+}
+
+.dados p {
+  margin: 0;
+
+  font-size: 11px;
+  color: #9a9a9a;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.info-conteudo {
+  margin-top: 20px;
+}
+
+.info-conteudo h4 {
+  margin-bottom: 10px;
+  margin-left: 10px;
+
+  font-size: var(--font-size-16);
+  font-weight: var(--font-bold);
+}
+
+.descricao {
+  margin-left: 10px;
+
+  font-size: 13px;
+  line-height: 1.6;
+  color: #8b909a;
+}
+
+.telefone {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin: 15px 0;
+}
+
+.telefone span {
+  font-size: var(--font-size-14);
+}
+
+.telefone button {
+  padding: 8px 14px;
+
+  background: #2b2b2b;
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+}
+
+.reserva {
+  margin-top: 20px;
+  padding-top: 20px;
+
+  border-top: 1px solid #2a2a2a;
+}
+
+.linha {
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 10px;
+  margin-bottom: 12px;
+
+  font-size: var(--font-size-14);
+}
+
+.quadradoFres {
+  margin-top: 7px;
+  padding: 15px;
+
+  border: 3px solid var(--gray-01);
+  border-radius: 10px;
+}
+
+.cancelar {
+  width: 100%;
+  height: 45px;
+  margin-top: 20px;
+
+  background: var(--red);
+  color: var(--white);
+  border: none;
+  border-radius: 10px;
+
+  font-weight: var(--font-semi-bold);
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 900px) {
+  .topo {
+    padding: 0 20px;
+  }
+
+  .centro {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .agendamentos-container,
+  .info-card {
+    width: 100%;
+    max-width: 444px;
+  }
+}
+
+@media (max-width: 480px) {
+  .topo {
+    flex-direction: column;
+    gap: 20px;
+
+    height: auto;
+    padding: 20px;
+  }
+
+  .div-perfil {
+    gap: 12px;
+  }
+
+  .card-agendamento {
+    padding: 14px;
+  }
+
+  .lado-direito {
+    width: 75px;
+  }
+
+  .cabecalho {
+    align-items: center;
+  }
+
+  .cabecalho img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .modal-cancelar-agendamento {
+    width: 90%;
+    max-width: 318px;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .topo {
+    flex-direction: column;
+    height: auto;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .logo {
+    margin: 0;
+  }
+
+  .pesquisa {
+    width: 100%;
+  }
+
+  .PesqBarb {
+    width: 100%;
+  }
+
+  .div-perfil {
+    margin: 0;
+  }
+
+}
