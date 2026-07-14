@@ -1,0 +1,272 @@
+:root {
+  /* ===== CORES ===== */
+  --dark-purple: #22174d;
+  --primary-purple: #003cff;
+  --light-purple: #8162ff;
+
+  --background-black: #141518;
+  --secondary-black: #1a1b1f;
+
+  --gray-01: #26272b;
+  --gray-02: #4e525b;
+  --gray-03: #838896;
+
+  --white: #ffffff;
+  --red: #ff4444;
+  --dark-red: #2f1f1f;
+
+  /* ===== FONTES ===== */
+  --font-primary: "Sora", sans-serif;
+  --font-secondary: "Nunito", sans-serif;
+
+  /* ===== PESOS ===== */
+  --font-thin: 100;
+  --font-extra-light: 200;
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semi-bold: 600;
+  --font-bold: 700;
+  --font-extra-bold: 800;
+
+  /* ===== TAMANHOS ===== */
+  --font-size-8: 8px;
+  --font-size-10: 10px;
+  --font-size-12: 12px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-20: 20px;
+  --font-size-24: 24px;
+  --font-size-30: 30px;
+}
+
+/* inicio do css */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  font-family: var(--font-primary);
+}
+
+body {
+  background-color: var(--background-black);
+}
+
+/* topo da tela Home */
+.topo {
+  width: 100%;
+  height: 72px;
+  background: var(--background-black);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0px 96px;
+
+
+  border-bottom: 1px solid var(--gray-01);
+}
+
+/* LOGO */
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* BUSCA */
+
+.busca-container {
+  flex: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  max-width: 700px;
+  margin: 0 40px;
+}
+
+.buscBarb {
+  width: 100%;
+  height: 36px;
+
+  background: var(--secondary-black);
+  border: 1px solid var(--gray-01);
+
+  border-radius: 8px 0 0 8px;
+
+  color: var(--white);
+
+  padding: 0 15px;
+
+  outline: none;
+}
+
+.buscBarb::placeholder {
+  color: var(--gray-03);
+}
+
+.btnPesquisa {
+  width: 40px;
+  height: 36px;
+
+  border: none;
+
+  background-color: var(--primary-purple);
+  background-image: url("../../img/icon/lupa.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 14px;
+
+  border-radius: 0 8px 8px 0;
+
+  cursor: pointer;
+}
+
+/* PERFIL */
+
+.div_perfil {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+#agendamentos-texto {
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.perfil-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.perfil-user img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+#nomeperfil {
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.container-reserva {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 370px;
+  height: 100vh;
+  background-color: var(--background-black);
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  padding: 10px 20px 20px 20px;
+  box-sizing: border-box;
+  display: none;
+}
+
+.container-reserva {
+  width: 370px;
+  height: 100%;
+  align-items: center;
+  background-color: var(--background-black);
+}
+
+.container-reserva.ativo {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.title-container-reserva {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 0px;
+  color: var(--white);
+}
+
+.title-container-reserva.show {
+  display: block;
+}
+
+.title-container-reserva {
+  display: flex;
+  width: 370px;
+  height: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-top: 20px;
+  color: var(--white);
+}
+
+.botao-fechar-container-reserva {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  margin-left: 180px;
+}
+
+#botao-confirmar-reserva {
+  background-color: var(--primary-purple);
+  color: white;
+  border-radius: 10px;
+  border: none;
+  width: 330px;
+  height: 36px;
+}
+
+/* RESULTADO DE PESQUISA */
+
+.resultados {
+    color: var(--white);
+  font-size: 13px;
+  font-weight: 317;
+  font-family: var(--font-secondary);
+
+  margin-left: 100px;
+  margin-top: 40px;
+}
+
+/* CARD DO RESULTADO DE PESQUISA */
+
+.nome-do-card {
+    color: var(--white);
+  font-size: 20px;
+  font-weight: 317;
+  font-family: var(--font-secondary);
+
+}
+
+.informcao-do-card {
+    color: var(--gray-03);
+    font-size: 15px;
+  font-weight: 317;
+  font-family: var(--font-secondary);
+}
+
+.botao-reservar {
+    background-color: var(--gray-01);
+    color: white;
+    height: 36px;
+    width: 196.8px;
+    border: none;
+    border-radius: 10px;
+}
