@@ -1,60 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <!-- Fonte Sora -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Sora:wght@100..800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="style.css" />
+  <!-- Fonte Sora -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Sora:wght@100..800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="buscar.css" />
-    <title>Document</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="buscar.css" />
+  <title>Document</title>
 </head>
+
 <body>
-    <!-- topo do site (header) -->
-    <header class="topo">
-      <div class="logo">
-        <img src="../../img/logo/Tesoura.svg" alt="" />
-        <img src="../../img/logo/nomeLogo.svg" alt="" />
+  <!-- topo do site (header) -->
+  <header class="topo">
+    <!-- <div class="logo">
+      <img src="../../img/logo/Tesoura.svg" alt="" />
+      <img src="../../img/logo/nomeLogo.svg" alt="" />
+    </div> -->
+
+ <a href="../../index.html" class="logo">
+  <img src="../../img/logo/Tesoura.svg" alt="Logo Tesoura" />
+  <img src="../../img/logo/nomeLogo.svg"  alt="BarberExpress" />
+</a>
+
+
+    <div class="busca-container">
+      <input type="text" placeholder="Buscar Barbearias" class="buscBarb" />
+      <button class="btnPesquisa"></button>
+    </div>
+
+    <div class="div_perfil">
+      <img src="../../img/icon/agenda.svg" alt="" />
+      <h4 id="agendamentos-texto">Agendamentos</h4>
+
+      <div class="perfil-user">
+        <img src="../../img/logo/perfil.svg" alt="" />
+        <h4 id="nomeperfil">Miguel Silva Mendes</h4>
       </div>
+    </div>
 
-      <div class="busca-container">
-        <input type="text" placeholder="Buscar Barbearias" class="buscBarb" />
-        <button class="btnPesquisa"></button>
-      </div>
+  </header>
 
-      <div class="div_perfil">
-        <img src="../../img/icon/agenda.svg" alt="" />
-        <h4 id="agendamentos-texto">Agendamentos</h4>
+  <div class="resultados">
+    <h2>Resultados para "Vintage Barber"</h2><br>
 
-        <div class="perfil-user">
-          <img src="../../img/logo/perfil.svg" alt="" />
-          <h4 id="nomeperfil">Miguel Silva Mendes</h4>
-        </div>
-      </div>
-
-    </header>
-
-      <div class="resultados">
-        <h2>Resultados para "Vintage Barber"</h2>
-      </div>
-
+    <div class="">
       <div class="card-resultados">
-        <h3 class="nome-do-card">Vintage Barber</h3>
+        <img src="./imgbarbearia.svg" alt="">
+        <h3 class="cardResultado">Vintage Barber</h3>
         <p class="informcao-do-card">Avenida São Sebastião, 357, São Paulo</p>
         <button class="botao-reservar">Reservar</button>
       </div>
-
+    </div>
+  </div>
 
 </body>
+
 </html>

@@ -270,3 +270,20 @@ body {
     border: none;
     border-radius: 10px;
 }
+
+.resultados{
+  width: 100%;
+  height: 379px;
+  margin-top: 40px;
+  margin-left: 128px;
+  margin-right: 128px;
+}
+
+.card-resultados{
+  background-color: var(--secondary-black);
+  width: 225px;
+  padding: 6px;
+  height: 275px;
+  border-radius: 16px;
+  border: 1px;
+}
