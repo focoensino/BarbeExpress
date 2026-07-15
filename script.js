@@ -126,6 +126,31 @@ window.addEventListener("load", atualizarTodasAsSetas);
 window.addEventListener("resize", atualizarTodasAsSetas);
 
 function perfilLogin() {}
+async function btnReserva(barbeariaId) {
+  if (!barbeariaId) {
+    alert("Barbearia inválida.");
+    return;
+  }
+
+  try {
+    const {
+      data: { user },
+      error
+    } = await supabaseClient.auth.getUser();
+
+    if (error || !user) {
+      alert("Faça login para reservar um horário.");
+      btnAbalogin();
+      return;
+    }
+
+    window.location.href =
+      `/Page/Barbearia/barbearia.html?id=${encodeURIComponent(barbeariaId)}`;
+  } catch (error) {
+    console.error("Erro ao iniciar reserva:", error);
+    alert("Não foi possível iniciar a reserva.");
+  }
+}
 
 function rolarRecomendados(direcao) {
   const container = document.getElementById("cardsRecomendados");
@@ -169,51 +194,115 @@ function rolarPopulares(direcao) {
   });
 }
 
-// ========== VERIFICAR SE ESTÁ LOGADO ==========
+async function verificarLogin() {
+  const containerPerfil =
+    document.getElementById("container-perfil");
 
-function verificarLogin() {
-  const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
-  const containerPerfil = document.getElementById("container-perfil");
-  const h2Saudacao = document.querySelector(".h2Cabecalho"); 
-  const iconAgenda = document.getElementById("icon-agenda");
-  const agendamentosTexto = document.getElementById("agendamentos-texto");
-  const menuDropdown = document.getElementById("menu-usuario-dropdown");
+  const h2Saudacao =
+    document.querySelector(".h2Cabecalho");
 
-  const loginPrincipal = document.querySelector('.login');
-  const entrarModal = document.querySelector('.Entrar');
-  const cadastrarModal = document.querySelector('.Cadastrar');
+  const iconAgenda =
+    document.getElementById("icon-agenda");
+
+  const agendamentosTexto =
+    document.getElementById("agendamentos-texto");
+
+  const menuDropdown =
+    document.getElementById("menu-usuario-dropdown");
 
   if (!containerPerfil) return;
 
-  if (usuarioLogado && usuarioLogado.logado) {
-    const nomeParaExibir = usuarioLogado.nome || "Usuário";
-    const emailParaExibir = usuarioLogado.email || "email@provedor.com";
+  try {
+    const {
+      data: { user },
+      error
+    } = await supabaseClient.auth.getUser();
 
-    document.body.classList.remove("deslogado");
+    if (error) {
+      console.error("Erro ao verificar login:", error);
+    }
 
-    if (loginPrincipal) loginPrincipal.style.display = "none";
-    if (entrarModal) entrarModal.style.display = "none";
-    if (cadastrarModal) cadastrarModal.style.display = "none";
+    if (user) {
+      const perfil = await buscarPerfilUsuario(user);
 
-    containerPerfil.innerHTML = `<h2 id="perfil-logado" onclick="toggleMenuPerfil()">${nomeParaExibir}</h2>`;
-    
-    document.getElementById("menu-nome").textContent = nomeParaExibir;
-    document.getElementById("menu-email").textContent = emailParaExibir;
+      document.body.classList.remove("deslogado");
 
-    if (h2Saudacao) h2Saudacao.textContent = `Olá, ${nomeParaExibir}!`;
-    if (iconAgenda) iconAgenda.style.display = "block";
-    if (agendamentosTexto) agendamentosTexto.style.display = "block";
+      fecharModaisLogin();
 
-  } else {
+      containerPerfil.innerHTML = `
+        <button
+          type="button"
+          id="perfil-logado"
+          onclick="toggleMenuPerfil()"
+          style="
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-family: 'Sora', sans-serif;
+          "
+        >
+          ${perfil.nome}
+        </button>
+      `;
+
+      const menuNome =
+        document.getElementById("menu-nome");
+
+      const menuEmail =
+        document.getElementById("menu-email");
+
+      if (menuNome) {
+        menuNome.textContent = perfil.nome;
+      }
+
+      if (menuEmail) {
+        menuEmail.textContent = perfil.email;
+      }
+
+      if (h2Saudacao) {
+        h2Saudacao.textContent = `Olá, ${perfil.nome}!`;
+      }
+
+      if (iconAgenda) {
+        iconAgenda.style.display = "block";
+      }
+
+      if (agendamentosTexto) {
+        agendamentosTexto.style.display = "block";
+      }
+
+      return;
+    }
+
     document.body.classList.add("deslogado");
 
-    if (menuDropdown) menuDropdown.style.display = "none";
-    
-    containerPerfil.innerHTML = `<button id="perfil" onclick="btnAbalogin()">Entrar</button>`;
-    
-    if (h2Saudacao) h2Saudacao.textContent = "Olá, Faça seu login!";
-    if (iconAgenda) iconAgenda.style.display = "none";
-    if (agendamentosTexto) agendamentosTexto.style.display = "none";
+    containerPerfil.innerHTML = `
+      <button
+        type="button"
+        id="perfil"
+        onclick="btnAbalogin()"
+      >
+        Entrar
+      </button>
+    `;
+
+    if (menuDropdown) {
+      menuDropdown.style.display = "none";
+    }
+
+    if (h2Saudacao) {
+      h2Saudacao.textContent = "Olá, Faça seu login!";
+    }
+
+    if (iconAgenda) {
+      iconAgenda.style.display = "none";
+    }
+
+    if (agendamentosTexto) {
+      agendamentosTexto.style.display = "none";
+    }
+  } catch (error) {
+    console.error("Erro inesperado ao verificar login:", error);
   }
 }
 
@@ -232,93 +321,358 @@ window.addEventListener("click", function(e) {
   }
 });
 
-document.addEventListener("DOMContentLoaded", verificarLogin);
+async function fazerLogout() {
+  try {
+    const { error } =
+      await supabaseClient.auth.signOut();
 
-function fazerLogout() {
-  localStorage.removeItem("usuarioLogado");
+    if (error) {
+      throw error;
+    }
 
-  alert("👋 Você saiu da sua conta com sucesso!");
+    const menu =
+      document.getElementById("menu-usuario-dropdown");
 
-  verificarLogin();
+    if (menu) {
+      menu.style.display = "none";
+    }
 
-  const loginPrincipal = document.querySelector('.login');
-  if (loginPrincipal) {
-    loginPrincipal.style.display = 'flex';
+    await verificarLogin();
+  } catch (error) {
+    console.error("Erro ao sair:", error);
+    alert("Não foi possível sair da conta.");
   }
 }
+
 // ========== FUNÇÃO DE ENTRAR ==========
 
-function EntrarLogin() {
+async function EntrarLogin() {
   const emailInput = document.querySelector(".Email1");
   const senhaInput = document.querySelector(".Senha1");
-  const email = emailInput.value.trim();
-  const senha = senhaInput.value.trim();
+  const botao = document.querySelector(".bntEntrar");
 
-  const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-  const contaValida = usuarios.find(user => user.email === email && user.senha === senha);
+  const email = emailInput?.value.trim().toLowerCase();
+  const senha = senhaInput?.value;
 
-  if (!contaValida) {
-    alert("❌ Email ou senha incorretos!");
+  if (!email || !senha) {
+    alert("Preencha o e-mail e a senha.");
     return;
   }
 
-  const usuarioLogado = { 
-    nome: contaValida.nome, 
-    email: email, 
-    logado: true 
-  };
-  localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado));
+  try {
+    if (botao) {
+      botao.disabled = true;
+      botao.textContent = "Entrando...";
+    }
 
-  const login = document.querySelector('.login');
-  const entrar = document.querySelector('.Entrar');
-  if (login) login.style.display = 'none';
-  if (entrar) entrar.style.display = 'none';
+    const { data, error } =
+      await supabaseClient.auth.signInWithPassword({
+        email,
+        password: senha
+      });
 
-  verificarLogin();
+    if (error) {
+      throw error;
+    }
+
+    if (!data.user) {
+      throw new Error("Usuário não encontrado.");
+    }
+
+    fecharModaisLogin();
+
+    await verificarLogin();
+
+    if (emailInput) emailInput.value = "";
+    if (senhaInput) senhaInput.value = "";
+  } catch (error) {
+    console.error("Erro no login:", error);
+
+    const mensagem =
+      error?.message?.toLowerCase() || "";
+
+    if (mensagem.includes("email not confirmed")) {
+      alert(
+        "Seu cadastro foi realizado, mas o e-mail ainda não foi confirmado. Verifique sua caixa de entrada e a pasta de spam."
+      );
+      return;
+    }
+
+    if (mensagem.includes("invalid login credentials")) {
+      alert(
+        "E-mail ou senha incorretos. Confira os dados informados."
+      );
+      return;
+    }
+
+    if (mensagem.includes("rate limit")) {
+      alert(
+        "Muitas tentativas seguidas. Aguarde alguns segundos e tente novamente."
+      );
+      return;
+    }
+
+    alert(
+      `Não foi possível entrar: ${error.message}`
+    );
+  } finally {
+    if (botao) {
+      botao.disabled = false;
+      botao.textContent = "Entrar";
+    }
+  }
 }
 
-function CriarLogin() {
-  const emailInput = document.querySelector(".EmailCadastro"); 
-  const senhaInput = document.querySelector(".SenhaCadastro");
-  const nomeInput = document.querySelector(".NomeCadastro"); 
 
-  const email = emailInput.value.trim();
-  const senha = senhaInput.value.trim();
-  const nome = nomeInput.value.trim();
+async function CriarLogin() {
+  const emailInput =
+    document.querySelector(".EmailCadastro");
 
-  if (email === "" || senha === "" || nome === "") {
-    alert("⚠️ Preencha todos os campos para criar sua conta!");
+  const senhaInput =
+    document.querySelector(".SenhaCadastro");
+
+  const nomeInput =
+    document.querySelector(".NomeCadastro");
+
+  const botaoCadastro =
+    document.querySelector(
+      ".Cadastrar .bntEntrar"
+    );
+
+  const email =
+    emailInput?.value.trim().toLowerCase();
+
+  const senha =
+    senhaInput?.value;
+
+  const nome =
+    nomeInput?.value.trim();
+
+  if (!nome || !email || !senha) {
+    alert("Preencha nome, e-mail e senha.");
     return;
   }
 
-  const usuariosCadastrados = JSON.parse(localStorage.getItem("usuarios")) || [];
-
-  const usuarioExiste = usuariosCadastrados.some(user => user.email === email);
-  if (usuarioExiste) {
-    alert("❌ Este email já está cadastrado!");
+  if (senha.length < 6) {
+    alert(
+      "A senha precisa ter pelo menos 6 caracteres."
+    );
     return;
   }
 
-  const novoUsuario = { email, senha, nome };
-  usuariosCadastrados.push(novoUsuario);
-  localStorage.setItem("usuarios", JSON.stringify(usuariosCadastrados));
+  try {
+    if (botaoCadastro) {
+      botaoCadastro.disabled = true;
+      botaoCadastro.textContent =
+        "Criando conta...";
+    }
 
-  const usuarioLogado = {
-    email: email,
-    nome: nome,
-    logado: true
-  };
-  localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado));
-  
-  // Fecha todas as abas de cadastro/login imediatamente
-  const login = document.querySelector('.login');
-  const cadastrar = document.querySelector(".Cadastrar");
-  if (login) login.style.display = "none";
-  if (cadastrar) cadastrar.style.display = "none";
-  
-  alert(`🎉 Bem-vindo, ${nome}!`);
-  verificarLogin();
+    const { data, error } =
+      await supabaseClient.auth.signUp({
+        email,
+        password: senha,
+        options: {
+          data: {
+            nome
+          }
+        }
+      });
+
+    if (error) {
+      throw error;
+    }
+
+    if (!data.session) {
+      fecharModaisLogin();
+
+      alert(
+        "Conta criada! Enviamos um link de confirmação para seu e-mail. Verifique também a pasta de spam."
+      );
+
+      return;
+    }
+
+    fecharModaisLogin();
+    await verificarLogin();
+
+    alert(`Bem-vindo, ${nome}!`);
+  } catch (error) {
+    console.error(
+      "Erro ao criar conta:",
+      error
+    );
+
+    const mensagem =
+      error?.message?.toLowerCase() || "";
+
+    if (
+      mensagem.includes(
+        "only request this after"
+      )
+    ) {
+      alert(
+        "Aguarde alguns segundos antes de tentar criar a conta novamente."
+      );
+      return;
+    }
+
+    if (
+      mensagem.includes(
+        "already registered"
+      )
+    ) {
+      alert(
+        "Este e-mail já está cadastrado. Tente entrar em vez de criar outra conta."
+      );
+      return;
+    }
+
+    alert(
+      `Não foi possível criar a conta: ${error.message}`
+    );
+  } finally {
+    if (botaoCadastro) {
+      botaoCadastro.disabled = false;
+      botaoCadastro.textContent =
+        "Cadastrar";
+    }
+  }
 }
+
+async function reenviarConfirmacao() {
+  const emailInput =
+    document.querySelector(".Email1");
+
+  const email =
+    emailInput?.value.trim().toLowerCase();
+
+  if (!email) {
+    alert(
+      "Digite seu e-mail primeiro."
+    );
+    return;
+  }
+
+  try {
+    const { error } =
+      await supabaseClient.auth.resend({
+        type: "signup",
+        email
+      });
+
+    if (error) {
+      throw error;
+    }
+
+    alert(
+      "E-mail de confirmação reenviado. Verifique sua caixa de entrada e a pasta de spam."
+    );
+  } catch (error) {
+    console.error(
+      "Erro ao reenviar confirmação:",
+      error
+    );
+
+    const mensagem =
+      error?.message?.toLowerCase() || "";
+
+    if (
+      mensagem.includes(
+        "only request this after"
+      )
+    ) {
+      alert(
+        "Aguarde alguns segundos antes de solicitar outro e-mail."
+      );
+      return;
+    }
+
+    alert(
+      `Não foi possível reenviar: ${error.message}`
+    );
+  }
+}
+
+function fecharModaisLogin() {
+  const login = document.querySelector(".login");
+  const entrar = document.querySelector(".Entrar");
+  const cadastros = document.querySelectorAll(".Cadastrar");
+
+  if (login) {
+    login.style.display = "none";
+  }
+
+  if (entrar) {
+    entrar.style.display = "none";
+  }
+
+  cadastros.forEach((cadastro) => {
+    cadastro.style.display = "none";
+  });
+}
+
+async function buscarPerfilUsuario(user) {
+  try {
+    const { data, error } = await supabaseClient
+      .from("usuarios")
+      .select("id, nome, email, foto_perfil, role")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Erro ao buscar perfil:", error);
+    }
+
+    return {
+      id: user.id,
+
+      nome:
+        data?.nome ||
+        user.user_metadata?.nome ||
+        user.email?.split("@")[0] ||
+        "Usuário",
+
+      email:
+        data?.email ||
+        user.email ||
+        "",
+
+      foto_perfil:
+        data?.foto_perfil ||
+        null,
+
+      role:
+        data?.role ||
+        "CLIENTE"
+    };
+  } catch (error) {
+    console.error("Erro inesperado ao buscar perfil:", error);
+
+    return {
+      id: user.id,
+      nome:
+        user.user_metadata?.nome ||
+        user.email?.split("@")[0] ||
+        "Usuário",
+      email: user.email || "",
+      foto_perfil: null,
+      role: "CLIENTE"
+    };
+  }
+}
+// ========== CAPTURAR DIGITAÇÃO NA INDEX E REDIRECIONAR ==========
+document.addEventListener("DOMContentLoaded", async () => {
+  await verificarLogin();
+});
+
+
+supabaseClient.auth.onAuthStateChange((evento, sessao) => {
+  console.log("Estado da autenticação:", evento);
+
+  setTimeout(() => {
+    verificarLogin();
+  }, 0);
+});
 
 // ========== Outras funções ==========
 
@@ -354,5 +708,22 @@ function btnVoltarParaMenu() {
 }
 
 // ========== INICIAR ==========
-verificarLogin();
+document.addEventListener(
+  "DOMContentLoaded",
+  async () => {
+    await verificarLogin();
+  }
+);
 
+supabaseClient.auth.onAuthStateChange(
+  (evento, sessao) => {
+    console.log(
+      "Estado da autenticação:",
+      evento
+    );
+
+    setTimeout(() => {
+      verificarLogin();
+    }, 0);
+  }
+);
