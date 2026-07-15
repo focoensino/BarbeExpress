@@ -21,6 +21,231 @@ function Reservar() {
 botaoFechar.addEventListener('click', () => {
   containerReserva.classList.remove('ativo');
 });
+// ======================================================
+// HEADER DO USUÁRIO
+// ======================================================
+
+async function carregarHeaderUsuario() {
+  const nomePerfil =
+    document.getElementById("nomeperfil");
+
+  const menuNome =
+    document.getElementById("menu-nome-header");
+
+  const menuEmail =
+    document.getElementById("menu-email-header");
+
+  const fotoPerfil =
+    document.getElementById("foto-perfil-header");
+
+  const botaoPerfil =
+    document.getElementById("botao-perfil-header");
+
+  const botaoAgendamentos =
+    document.getElementById("btn-agendamentos-header");
+
+  if (!nomePerfil || !botaoPerfil) {
+    return;
+  }
+
+  try {
+    const {
+      data: { user },
+      error
+    } = await supabaseClient.auth.getUser();
+
+    if (error) {
+      throw error;
+    }
+
+    // Usuário não está logado
+    if (!user) {
+      nomePerfil.textContent = "Entrar";
+
+      if (menuNome) {
+        menuNome.textContent = "Visitante";
+      }
+
+      if (menuEmail) {
+        menuEmail.textContent = "";
+      }
+
+      if (botaoAgendamentos) {
+        botaoAgendamentos.style.display = "none";
+      }
+
+      return;
+    }
+
+    // Busca o perfil salvo na tabela usuarios
+    const { data: perfil, error: perfilError } =
+      await supabaseClient
+        .from("usuarios")
+        .select("nome, email, foto_perfil")
+        .eq("id", user.id)
+        .maybeSingle();
+
+    if (perfilError) {
+      console.error(
+        "Erro ao buscar perfil:",
+        perfilError
+      );
+    }
+
+    const nomeUsuario =
+      perfil?.nome ||
+      user.user_metadata?.nome ||
+      user.email?.split("@")[0] ||
+      "Usuário";
+
+    const emailUsuario =
+      perfil?.email ||
+      user.email ||
+      "";
+
+    nomePerfil.textContent = nomeUsuario;
+
+    if (menuNome) {
+      menuNome.textContent = nomeUsuario;
+    }
+
+    if (menuEmail) {
+      menuEmail.textContent = emailUsuario;
+    }
+
+    if (perfil?.foto_perfil && fotoPerfil) {
+      fotoPerfil.src = perfil.foto_perfil;
+    }
+
+    if (botaoAgendamentos) {
+      botaoAgendamentos.style.display = "flex";
+    }
+  } catch (error) {
+    console.error(
+      "Erro ao carregar usuário no header:",
+      error
+    );
+
+    nomePerfil.textContent = "Entrar";
+  }
+}
+  
+// ======================================================
+// EVENTOS DO HEADER
+// ======================================================
+
+function iniciarEventosHeader() {
+  const botaoAgendamentos =
+    document.getElementById(
+      "btn-agendamentos-header"
+    );
+
+  const botaoPerfil =
+    document.getElementById(
+      "botao-perfil-header"
+    );
+
+  const menu =
+    document.getElementById(
+      "menu-usuario-dropdown"
+    );
+
+  const botaoSair =
+    document.getElementById(
+      "btn-sair-header"
+    );
+
+  botaoAgendamentos?.addEventListener(
+    "click",
+    () => {
+      window.location.href =
+        "/Page/Agendamentos/agendamentos.html";
+    }
+  );
+
+  botaoPerfil?.addEventListener(
+    "click",
+    async (event) => {
+      event.stopPropagation();
+
+      const {
+        data: { user }
+      } = await supabaseClient.auth.getUser();
+
+      // Caso não esteja logado, volta para a página de login
+      if (!user) {
+        window.location.href = "/index.html";
+        return;
+      }
+
+      if (menu) {
+        menu.hidden = !menu.hidden;
+      }
+    }
+  );
+
+  botaoSair?.addEventListener(
+    "click",
+    async () => {
+      try {
+        const { error } =
+          await supabaseClient.auth.signOut();
+
+        if (error) {
+          throw error;
+        }
+
+        window.location.href = "/index.html";
+      } catch (error) {
+        console.error(
+          "Erro ao sair:",
+          error
+        );
+
+        alert(
+          "Não foi possível sair da conta."
+        );
+      }
+    }
+  );
+
+  document.addEventListener(
+    "click",
+    (event) => {
+      if (
+        menu &&
+        botaoPerfil &&
+        !menu.contains(event.target) &&
+        !botaoPerfil.contains(event.target)
+      ) {
+        menu.hidden = true;
+      }
+    }
+  );
+}
+
+
+// ======================================================
+// INICIAR HEADER
+// ======================================================
+
+document.addEventListener(
+  "DOMContentLoaded",
+  async () => {
+    iniciarEventosHeader();
+    await carregarHeaderUsuario();
+  }
+);
+
+
+// Atualiza o header automaticamente após login ou logout
+supabaseClient.auth.onAuthStateChange(
+  () => {
+    setTimeout(() => {
+      carregarHeaderUsuario();
+    }, 0);
+  }
+);
 
 function renderizarCalendario() {
   const ano = dataAtual.getFullYear();
