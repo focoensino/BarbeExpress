@@ -85,6 +85,27 @@
     </div>
   </div>
 </header>
+<div class="overlay-reserva" id="popupReserva">
+    <div class="reserva-efetuada">
+
+      
+            <img src="/img/icon/check-circle.svg" alt="">
+        
+
+        <h3>Reserva Efetuada!</h3>
+
+        <p>Sua reserva foi agendada com sucesso!</p>
+
+        <div class="botoes-reserva">
+<button id="btnConfirmar" class="btn-confirmar" onclick="fecharPopup()">
+    Confirmar
+</button>
+
+
+        </div>
+
+    </div>
+</div>
 
     <div class="container-reserva">
       <div class="title-container-reserva">
@@ -114,7 +135,7 @@
       </div>
 
       <div>
-        <button id="botao-confirmar-reserva">Confirmar</button>
+        <button id="botao-confirmar-reserva" onclick="abrirPopup()">Confirmar</button>
       </div>
     </div>
 
@@ -391,4 +412,21 @@
     </main>
     <script src="script.js"></script>
   </body>
+
+  <Script>
+const popupReserva = document.getElementById("popupReserva");
+const btnConfirmar = document.getElementById("btnConfirmar");
+
+function abrirPopup() {
+    popupReserva.style.display = "flex";
+}
+
+function fecharPopup() {
+    popupReserva.style.display = "none";
+}
+
+// Fecha o popup ao clicar no botão
+btnConfirmar.addEventListener("click", fecharPopup);
+  </Script>
 </html>
+

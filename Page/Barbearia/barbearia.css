@@ -18,7 +18,8 @@
   --light-purple: #8162ff;
 
   /* fontes */
-  --font-primary: "Sora", sans-serif;
+   --font-primary: "Sora", sans-serif;
+  --font-secondary: "Nunito", sans-serif;
 
   /* pesos */
   --font-thin: 100;
@@ -211,6 +212,129 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+
+/* Fundo escuro atrás do popup */
+
+.overlay-reserva{
+    position: fixed;
+    inset:0;
+
+    background:rgba(0,0,0,.65);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    z-index:9999;
+}
+
+/* Modal */
+
+.reserva-efetuada{
+
+    width:246px;
+    min-height:258px;
+
+    background:#141518;
+    border-radius:10px;
+
+    padding:20px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    gap:18px;
+
+    color:#fff;
+
+    text-align:center;
+
+    box-shadow:0 0 30px rgba(0,0,0,.45);
+}
+
+/* Ícone */
+
+/* .icone-sucesso{
+
+    width:60px;
+    height:60px;
+
+} */
+
+.icone-sucesso img{
+
+    width:28px;
+    height:28px;
+}
+
+/* Título */
+
+.reserva-efetuada h3{
+
+    font-family: var(--font-secondary);
+    font-weight: 700;
+    font-size: 16px;
+   
+
+    
+}
+
+/* Texto */
+
+.reserva-efetuada p{
+
+    margin:0;
+
+    color:var(--gray-03);
+
+    font-size:13px;
+    line-height:20px;
+}
+
+/* Botões */
+
+.botoes-reserva{
+
+    width:100%;
+
+    display:flex;
+    flex-direction:column;
+
+    gap:10px;
+}
+
+/* Confirmar */
+
+.btn-confirmar{
+
+    width:100%;
+    height:40px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:var(--gray-01);
+
+    color:#fff;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.btn-confirmar:hover{
+
+    background:#1D4ED8;
+}
+
+
+
 
 /* =====================================================
    MENU DO PERFIL
