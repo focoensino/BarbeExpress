@@ -14,77 +14,7 @@
 
   <body>
     <!-- topo do site (header) -->
-<header class="topo">
-  <div class="logo">
-    <a href="/index.html">
-      <img
-        src="/img/logo/Tesoura.svg"
-        alt="BarberExpress"
-      />
-    </a>
-
-    <a href="/index.html">
-      <img
-        src="/img/logo/nomeLogo.svg"
-        alt="BarberExpress"
-      />
-    </a>
-  </div>
-
-  <div class="div_perfil">
-    <button
-      type="button"
-      id="btn-agendamentos-header"
-      class="btn-header-agendamentos"
-    >
-      <img
-        src="/img/icon/agenda.svg"
-        alt=""
-      />
-
-      <span>Agendamentos</span>
-    </button>
-
-    <div class="perfil-user">
-      <button
-        type="button"
-        id="botao-perfil-header"
-        class="botao-perfil-header"
-      >
-        <img
-          id="foto-perfil-header"
-          src="/img/logo/perfil.svg"
-          alt="Perfil"
-        />
-
-        <span id="nomeperfil">Carregando...</span>
-      </button>
-
-      <div
-        id="menu-usuario-dropdown"
-        class="menu-usuario-dropdown"
-        hidden
-      >
-        <div class="avatar-grande">👤</div>
-
-        <h3 id="menu-nome-header">Usuário</h3>
-
-        <p id="menu-email-header">
-          email@provedor.com
-        </p>
-
-        <hr />
-
-        <button
-          type="button"
-          id="btn-sair-header"
-        >
-          Sair da conta
-        </button>
-      </div>
-    </div>
-  </div>
-</header>
+<div data-component="header"></div>
 
     <div class="container-reserva">
       <div class="title-container-reserva">
@@ -389,6 +319,7 @@
         </div>
       </aside>
     </main>
+    <script src="../../render.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
