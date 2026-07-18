@@ -276,7 +276,8 @@ body.deslogado [class^="reservar"] {
 .RECO1,
 .MAVI1 {
   min-width: 260px;
-  width: 260px;
+    width: 220.8px;
+  height: 292px;
   background-color: #1a1b1f;
   border-radius: 12px;
   overflow: hidden;
