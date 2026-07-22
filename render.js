@@ -1,35 +1,66 @@
-/**
- * Busca e injeta os componentes HTML dinamicamente no navegador.
- */
-async function loadComponents() {
-  // 1. Procura todos os elementos com o atributo data-component
-  const elements = document.querySelectorAll('[data-component]');
+async function carregarComponentes() {
+  const componentes =
+    document.querySelectorAll(
+      "[data-component]"
+    );
 
-  for (const element of elements) {
-    const componentName = element.getAttribute('data-component');
-    
-    // Caminho voltando duas pastas para acessar a raiz e entrar em /Components/
-    const componentUrl = `../../Components/${componentName}.html`;
+  if (!componentes.length) {
+    document.dispatchEvent(
+      new CustomEvent("components:loaded")
+    );
 
-    try {
-      // 2. Faz a requisição para pegar o HTML do componente
-      const response = await fetch(componentUrl);
-
-      if (!response.ok) {
-        throw new Error(`Erro ao carregar o componente: ${response.statusText}`);
-      }
-
-      const componentHtml = await response.text();
-
-      // 3. Injeta o HTML recebido dentro da tag original
-      element.innerHTML = componentHtml;
-      console.log(`✓ Componente [${componentName}] carregado com sucesso.`);
-
-    } catch (error) {
-      console.error(`⚠ Não foi possível carregar o componente [${componentName}]:`, error);
-    }
+    return;
   }
+
+  await Promise.all(
+    Array.from(componentes).map(
+      async (elemento) => {
+        const nomeComponente =
+          elemento.dataset.component;
+
+        try {
+          const resposta = await fetch(
+            `/Components/${nomeComponente}.html`
+          );
+
+          if (!resposta.ok) {
+            throw new Error(
+              `Erro ${resposta.status} ao carregar ${nomeComponente}`
+            );
+          }
+
+          elemento.innerHTML =
+            await resposta.text();
+        } catch (erro) {
+          console.error(
+            `Erro ao carregar o componente ${nomeComponente}:`,
+            erro
+          );
+
+          elemento.innerHTML = `
+            <p style="
+              color: white;
+              padding: 20px;
+            ">
+              Não foi possível carregar o componente.
+            </p>
+          `;
+        }
+      }
+    )
+  );
+
+  document.dispatchEvent(
+    new CustomEvent("components:loaded")
+  );
 }
 
-// Executa a função assim que a página terminar de carregar o HTML estrutural
-document.addEventListener('DOMContentLoaded', loadComponents);
+if (document.readyState === "loading") {
+  document.addEventListener(
+    "DOMContentLoaded",
+    carregarComponentes,
+    { once: true }
+  );
+} else {
+  carregarComponentes();
+}

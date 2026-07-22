@@ -1,62 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- Fonte Sora -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+
     <link
-      href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700;800&display=swap"
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- CSS geral -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Sora:wght@100..800&display=swap"
       rel="stylesheet"
+      href="../../style.css"
     />
-    <link rel="stylesheet" href="style.css" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="buscar.css" />
-    <title>Document</title>
-</head>
+    <!-- CSS do perfil compartilhado -->
+    <link
+      rel="stylesheet"
+      href="../../perfil-header.css"
+    />
 
-<body>
-    <!-- topo do site (header) -->
+    <!-- CSS da página de busca -->
+    <link
+      rel="stylesheet"
+      href="./buscar.css"
+    />
+
+    <title>
+      Buscar barbearias | BarberExpress
+    </title>
+  </head>
+
+  <body>
     <header class="topo">
-      <div class="logo">
-        <img src="../../img/logo/Tesoura.svg" alt="" />
-        <img src="../../img/logo/nomeLogo.svg" alt="" />
+      <a
+        href="../../index.html"
+        class="logo"
+        aria-label="Voltar para a página inicial"
+      >
+        <img
+          class="logo-tesoura"
+          src="../../img/logo/Tesoura.svg"
+          alt=""
+        />
+
+        <img
+          class="logo-nome"
+          src="../../img/logo/nomeLogo.svg"
+          alt="BarberExpress"
+        />
+      </a>
+
+      <div class="busca-container">
+        <input
+          type="search"
+          placeholder="Buscar barbearias"
+          class="buscBarb"
+          autocomplete="off"
+          aria-label="Buscar barbearias"
+        />
+
+        <button
+          type="button"
+          class="btnPesquisa"
+          aria-label="Pesquisar"
+        ></button>
       </div>
 
-    <div class="busca-container">
-      <input type="text" placeholder="Buscar Barbearias" class="buscBarb" />
-      <button class="btnPesquisa"></button>
-    </div>
-
-      <div class="div_perfil">
-        <img src="../../img/icon/agenda.svg" alt="" />
-        <h4 id="agendamentos-texto">Agendamentos</h4>
-
-        <div class="perfil-user">
-          <img src="../../img/logo/perfil.svg" alt="" />
-          <h4 id="nomeperfil">Miguel Silva Mendes</h4>
-        </div>
-      </div>
-
+      <!-- O perfil será colocado aqui -->
+      <div data-component="perfil-header"></div>
     </header>
 
-      <div class="resultados">
-        <h2>Resultados para "Vintage Barber"</h2>
-      </div>
+    <main class="pagina-busca">
+      <section class="cabecalho-resultados">
+        <span class="subtitulo-resultados">
+          BarberExpress
+        </span>
 
-      <div class="card-resultados">
-        <h3 class="nome-do-card">Vintage Barber</h3>
-        <p class="informcao-do-card">Avenida São Sebastião, 357, São Paulo</p>
-        <button class="botao-reservar">Reservar</button>
-      </div>
+        <h1
+          id="titulo-resultados"
+          aria-live="polite"
+        >
+          Digite para buscar barbearias
+        </h1>
 
+        <p class="descricao-resultados">
+          Encontre uma barbearia e reserve seu
+          horário.
+        </p>
+      </section>
 
-</body>
+      <section
+        id="cardsResultadoBusca"
+        class="lista-resultados"
+        aria-live="polite"
+      ></section>
 
+      <p
+        id="mensagem-busca"
+        class="mensagem-busca"
+        aria-live="polite"
+        hidden
+      ></p>
+    </main>
+
+    <!-- Biblioteca do Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Cria window.supabaseClient -->
+    <script src="../../supabase-client.js"></script>
+
+    <!-- Controla login e perfil -->
+    <script src="../../perfil-header.js"></script>
+
+    <!-- Carrega Components/perfil-header.html -->
+    <script src="../../render.js"></script>
+
+    <!-- Pesquisa e criação dos cards -->
+    <script src="./buscar.js"></script>
+  </body>
 </html>

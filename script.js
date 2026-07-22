@@ -1,729 +1,1240 @@
-const containerPopu = document.getElementById("cardsPopulares");
-const btnEsquerdaPopu = document.querySelector(".Populares .btn-scrollEs");
-const btnDireitaPopu = document.querySelector(".Populares .btn-scrollDi");
-const containerMavi = document.getElementById("cardsMaisVisitados");
-const btnEsquerdaMavi = document.querySelector(".MaisVisitados .btn-scrollEs");
-const btnDireitaMavi = document.querySelector(".MaisVisitados .btn-scrollDi");
-const containerReco = document.getElementById("cardsRecomendados");
-const btnEsquerdaReco = document.querySelector(".Recomendados .btn-scrollEs");
-const btnDireitaReco = document.querySelector(".Recomendados .btn-scrollDi");
+(() => {
+  const SUPABASE_URL =
+    "https://cfqvfiquhtzzzfuubltf.supabase.co";
 
+  const SUPABASE_KEY =
+    "sb_publishable_q1Ckt9CnEi7cJSzFsHPjug_TLc2kWwX";
 
+  let clienteSupabase = null;
+  let inscricaoAuth = null;
 
+  function obterSupabase() {
+    if (clienteSupabase) {
+      return clienteSupabase;
+    }
 
-function rolarPopulares(direcao) {
-  const distancia = 1120;
-  if (containerPopu) {
-    containerPopu.scrollBy({ left: direcao * distancia, behavior: "smooth" });
-  }
-}
+    /*
+     * Aproveita o cliente criado pelo seed.js,
+     * caso ele já exista.
+     */
+    try {
+      if (
+        typeof supabaseClient !== "undefined" &&
+        supabaseClient
+      ) {
+        clienteSupabase = supabaseClient;
 
-function gerenciarSetasPopulares() {
-  if (!containerPopu || !btnEsquerdaPopu || !btnDireitaPopu) return;
+        window.supabaseClient =
+          clienteSupabase;
 
-  if (containerPopu.scrollLeft <= 5) {
-    btnEsquerdaPopu.classList.add("escondido");
-  } else {
-    btnEsquerdaPopu.classList.remove("escondido");
-  }
+        return clienteSupabase;
+      }
+    } catch (erro) {
+      // Continua para criar o cliente.
+    }
 
-  const limiteMaximo = containerPopu.scrollWidth - containerPopu.clientWidth;
-  if (containerPopu.scrollLeft >= limiteMaximo - 5) {
-    btnDireitaPopu.classList.add("escondido");
-  } else {
-    btnDireitaPopu.classList.remove("escondido");
-  }
-}
+    if (window.supabaseClient) {
+      clienteSupabase =
+        window.supabaseClient;
 
-if (containerPopu) {
-  containerPopu.addEventListener("scroll", gerenciarSetasPopulares);
-}
+      return clienteSupabase;
+    }
 
-function rolarMaisVisitados(direcao) {
-  const distancia = 1120;
-  if (containerMavi) {
-    containerMavi.scrollBy({ left: direcao * distancia, behavior: "smooth" });
-  }
-}
+    if (!window.supabase?.createClient) {
+      console.error(
+        "❌ Biblioteca do Supabase não carregada."
+      );
 
-function gerenciarSetasMaisVisitados() {
-  if (!containerMavi || !btnEsquerdaMavi || !btnDireitaMavi) return;
+      return null;
+    }
 
-  if (containerMavi.scrollLeft <= 5) {
-    btnEsquerdaMavi.classList.add("escondido");
-  } else {
-    btnEsquerdaMavi.classList.remove("escondido");
-  }
+    clienteSupabase =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
-  const limiteMaximo = containerMavi.scrollWidth - containerMavi.clientWidth;
-  if (containerMavi.scrollLeft >= limiteMaximo - 5) {
-    btnDireitaMavi.classList.add("escondido");
-  } else {
-    btnDireitaMavi.classList.remove("escondido");
-  }
-}
+    window.supabaseClient =
+      clienteSupabase;
 
-if (containerMavi) {
-  containerMavi.addEventListener("scroll", gerenciarSetasMaisVisitados);
-}
-
-function atualizarTodasAsSetas() {
-  gerenciarSetasPopulares();
-  gerenciarSetasMaisVisitados();
-}
-
-function rolarRecomendados(direcao) {
-  const distancia = 1120;
-  if (containerReco) {
-    containerReco.scrollBy({ left: direcao * distancia, behavior: "smooth" });
-  }
-}
-
-function gerenciarSetasRecomendados() {
-  if (!containerReco || !btnEsquerdaReco || !btnDireitaReco) return;
-
-  if (containerReco.scrollLeft <= 5) {
-    btnEsquerdaReco.classList.add("escondido");
-  } else {
-    btnEsquerdaReco.classList.remove("escondido");
+    return clienteSupabase;
   }
 
-  const limiteMaximo = containerReco.scrollWidth - containerReco.clientWidth;
-  if (containerReco.scrollLeft >= limiteMaximo - 5) {
-    btnDireitaReco.classList.add("escondido");
-  } else {
-    btnDireitaReco.classList.remove("escondido");
-  }
-}
+  /* =======================================
+     DATA DO CABEÇALHO
+  ======================================= */
 
-if (containerReco) {
-  containerReco.addEventListener("scroll", gerenciarSetasRecomendados);
-}
+  function atualizarDataCabecalho() {
+    const elemento =
+      document.getElementById(
+        "data-cabecalho"
+      );
 
-function atualizarDataCabecalho() {
-  const elementoData = document.getElementById("data-cabecalho");
+    if (!elemento) return;
 
-  if (!elementoData) return;
+    const texto = new Date()
+      .toLocaleDateString("pt-BR", {
+        weekday: "long",
+        day: "numeric",
+        month: "long"
+      });
 
-  const hoje = new Date();
-
-  const opcoes = {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-  };
-
-  let dataFormatada = hoje.toLocaleDateString("pt-BR", opcoes);
-
-  dataFormatada =
-    dataFormatada.charAt(0).toUpperCase() + dataFormatada.slice(1);
-
-  elementoData.textContent = dataFormatada;
-}
-
-window.addEventListener("DOMContentLoaded", atualizarDataCabecalho);
-window.addEventListener("load", atualizarTodasAsSetas);
-window.addEventListener("resize", atualizarTodasAsSetas);
-
-function perfilLogin() {}
-async function btnReserva(barbeariaId) {
-  if (!barbeariaId) {
-    alert("Barbearia inválida.");
-    return;
+    elemento.textContent =
+      texto.charAt(0).toUpperCase() +
+      texto.slice(1);
   }
 
-  try {
-    const {
-      data: { user },
-      error
-    } = await supabaseClient.auth.getUser();
+  /* =======================================
+     ROLAGEM DOS CARDS
+  ======================================= */
 
-    if (error || !user) {
-      alert("Faça login para reservar um horário.");
-      btnAbalogin();
+  function rolarContainer(
+    containerId,
+    seletorCard,
+    direcao
+  ) {
+    const container =
+      document.getElementById(
+        containerId
+      );
+
+    if (!container) return;
+
+    const card =
+      container.querySelector(
+        seletorCard
+      );
+
+    const distancia = card
+      ? card.offsetWidth + 20
+      : Math.min(
+          container.clientWidth * 0.85,
+          800
+        );
+
+    container.scrollBy({
+      left: distancia * direcao,
+      behavior: "smooth"
+    });
+  }
+
+  window.rolarRecomendados =
+    function rolarRecomendados(direcao) {
+      rolarContainer(
+        "cardsRecomendados",
+        ".RECO1",
+        direcao
+      );
+    };
+
+  window.rolarPopulares =
+    function rolarPopulares(direcao) {
+      rolarContainer(
+        "cardsPopulares",
+        ".POPU1",
+        direcao
+      );
+    };
+
+  window.rolarMaisVisitados =
+    function rolarMaisVisitados(direcao) {
+      rolarContainer(
+        "cardsMaisVisitados",
+        ".MAVI1",
+        direcao
+      );
+    };
+
+  /* =======================================
+     PESQUISA
+  ======================================= */
+
+  function iniciarBusca() {
+    const input =
+      document.querySelector(
+        ".buscBarb"
+      );
+
+    const botao =
+      document.querySelector(
+        ".btnPesquisa"
+      );
+
+    if (
+      !input ||
+      input.dataset.buscaConfigurada ===
+        "true"
+    ) {
       return;
     }
 
-    window.location.href =
-      `/Page/Barbearia/barbearia.html?id=${encodeURIComponent(barbeariaId)}`;
-  } catch (error) {
-    console.error("Erro ao iniciar reserva:", error);
-    alert("Não foi possível iniciar a reserva.");
-  }
-}
+    input.dataset.buscaConfigurada =
+      "true";
 
-function rolarRecomendados(direcao) {
-  const container = document.getElementById("cardsRecomendados");
-  const card = container.querySelector(".RECO1");
+    let redirecionando = false;
 
-  if (!card) return;
+    function irParaBusca() {
+      if (redirecionando) return;
 
-  const scrollAmount = (card.offsetWidth + 20) * direcao;
+      const termo =
+        input.value.trim();
 
-  container.scrollBy({
-    left: scrollAmount,
-    behavior: "smooth",
-  });
-}
+      const url = new URL(
+        "./Page/Buscar/buscar.html",
+        window.location.href
+      );
 
-function rolarMaisVisitados(direcao) {
-  const container = document.getElementById("cardsMaisVisitados");
-  const card = container.querySelector(".MAVI1");
+      if (termo) {
+        url.searchParams.set(
+          "pesquisa",
+          termo
+        );
+      }
 
-  if (!card) return;
+      redirecionando = true;
 
-  const scrollAmount = (card.offsetWidth + 20) * direcao;
-
-  container.scrollBy({
-    left: scrollAmount,
-    behavior: "smooth",
-  });
-}
-
-function rolarPopulares(direcao) {
-  const container = document.getElementById("cardsPopulares");
-  const card = container.querySelector(".POPU1");
-
-  if (!card) return;
-
-  const scrollAmount = (card.offsetWidth + 20) * direcao;
-
-  container.scrollBy({
-    left: scrollAmount,
-    behavior: "smooth",
-  });
-}
-
-async function verificarLogin() {
-  const containerPerfil =
-    document.getElementById("container-perfil");
-
-  const h2Saudacao =
-    document.querySelector(".h2Cabecalho");
-
-  const iconAgenda =
-    document.getElementById("icon-agenda");
-
-  const agendamentosTexto =
-    document.getElementById("agendamentos-texto");
-
-  const menuDropdown =
-    document.getElementById("menu-usuario-dropdown");
-
-  if (!containerPerfil) return;
-
-  try {
-    const {
-      data: { user },
-      error
-    } = await supabaseClient.auth.getUser();
-
-    if (error) {
-      console.error("Erro ao verificar login:", error);
+      window.location.href =
+        url.href;
     }
 
-    if (user) {
-      const perfil = await buscarPerfilUsuario(user);
-
-      document.body.classList.remove("deslogado");
-
-      fecharModaisLogin();
-
-      containerPerfil.innerHTML = `
-        <button
-          type="button"
-          id="perfil-logado"
-          onclick="toggleMenuPerfil()"
-          style="
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            font-family: 'Sora', sans-serif;
-          "
-        >
-          ${perfil.nome}
-        </button>
-      `;
-
-      const menuNome =
-        document.getElementById("menu-nome");
-
-      const menuEmail =
-        document.getElementById("menu-email");
-
-      if (menuNome) {
-        menuNome.textContent = perfil.nome;
+    input.addEventListener(
+      "input",
+      () => {
+        if (input.value.trim()) {
+          irParaBusca();
+        }
       }
+    );
 
-      if (menuEmail) {
-        menuEmail.textContent = perfil.email;
+    input.addEventListener(
+      "keydown",
+      (evento) => {
+        if (evento.key === "Enter") {
+          evento.preventDefault();
+          irParaBusca();
+        }
       }
+    );
 
-      if (h2Saudacao) {
-        h2Saudacao.textContent = `Olá, ${perfil.nome}!`;
-      }
+    botao?.addEventListener(
+      "click",
+      irParaBusca
+    );
+  }
 
-      if (iconAgenda) {
-        iconAgenda.style.display = "block";
-      }
+  /* =======================================
+     MODAIS
+  ======================================= */
 
-      if (agendamentosTexto) {
-        agendamentosTexto.style.display = "block";
-      }
+  function mostrar(elemento) {
+    if (elemento) {
+      elemento.hidden = false;
+    }
+  }
+
+  function esconder(elemento) {
+    if (elemento) {
+      elemento.hidden = true;
+    }
+  }
+
+  function fecharModais() {
+    document
+      .querySelectorAll(
+        ".modal-autenticacao"
+      )
+      .forEach((modal) => {
+        modal.hidden = true;
+      });
+  }
+
+  function abrirModal(seletor) {
+    fecharModais();
+
+    mostrar(
+      document.querySelector(seletor)
+    );
+  }
+
+  /* =======================================
+     DROPDOWN
+  ======================================= */
+
+  function fecharDropdown() {
+    const menu =
+      document.getElementById(
+        "menu-usuario-dropdown"
+      );
+
+    const botao =
+      document.getElementById(
+        "perfil-logado"
+      );
+
+    esconder(menu);
+
+    botao?.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+  }
+
+  function alternarDropdown() {
+    const menu =
+      document.getElementById(
+        "menu-usuario-dropdown"
+      );
+
+    const botao =
+      document.getElementById(
+        "perfil-logado"
+      );
+
+    if (!menu) return;
+
+    const abrir = menu.hidden;
+
+    menu.hidden = !abrir;
+
+    botao?.setAttribute(
+      "aria-expanded",
+      String(abrir)
+    );
+  }
+
+  /* =======================================
+     PERFIL DO USUÁRIO
+  ======================================= */
+
+  function obterInicial(nome) {
+    return (
+      nome
+        ?.trim()
+        .charAt(0)
+        .toUpperCase() || "U"
+    );
+  }
+
+  function preencherAvatar(
+    elemento,
+    perfil
+  ) {
+    if (!elemento) return;
+
+    elemento.innerHTML = "";
+
+    if (perfil.foto_perfil) {
+      const imagem =
+        document.createElement("img");
+
+      imagem.src =
+        perfil.foto_perfil;
+
+      imagem.alt =
+        `Foto de ${perfil.nome}`;
+
+      imagem.addEventListener(
+        "error",
+        () => {
+          elemento.innerHTML = "";
+          elemento.textContent =
+            obterInicial(perfil.nome);
+        },
+        { once: true }
+      );
+
+      elemento.appendChild(imagem);
 
       return;
     }
 
-    document.body.classList.add("deslogado");
+    elemento.textContent =
+      obterInicial(perfil.nome);
+  }
 
-    containerPerfil.innerHTML = `
+  async function buscarPerfil(user) {
+    const supabase =
+      obterSupabase();
+
+    if (!supabase) {
+      return {
+        nome:
+          user.user_metadata?.nome ||
+          user.email?.split("@")[0] ||
+          "Usuário",
+
+        email:
+          user.email || "",
+
+        foto_perfil: null,
+
+        role: "CLIENTE"
+      };
+    }
+
+    try {
+      const { data, error } =
+        await supabase
+          .from("usuarios")
+          .select(
+            "nome, email, foto_perfil, role"
+          )
+          .eq("id", user.id)
+          .maybeSingle();
+
+      if (error) {
+        console.error(
+          "Erro ao buscar perfil:",
+          error
+        );
+      }
+
+      return {
+        nome:
+          data?.nome ||
+          user.user_metadata?.nome ||
+          user.email?.split("@")[0] ||
+          "Usuário",
+
+        email:
+          data?.email ||
+          user.email ||
+          "",
+
+        foto_perfil:
+          data?.foto_perfil ||
+          null,
+
+        role:
+          data?.role ||
+          "CLIENTE"
+      };
+    } catch (error) {
+      console.error(
+        "Erro inesperado ao buscar perfil:",
+        error
+      );
+
+      return {
+        nome:
+          user.user_metadata?.nome ||
+          user.email?.split("@")[0] ||
+          "Usuário",
+
+        email:
+          user.email || "",
+
+        foto_perfil: null,
+
+        role: "CLIENTE"
+      };
+    }
+  }
+
+  function mostrarDeslogado() {
+    const container =
+      document.getElementById(
+        "container-perfil"
+      );
+
+    const agendamentos =
+      document.getElementById(
+        "agendamentos-link"
+      );
+
+    const saudacao =
+      document.querySelector(
+        ".h2Cabecalho"
+      );
+
+    document.body.classList.add(
+      "deslogado"
+    );
+
+    esconder(agendamentos);
+    fecharDropdown();
+
+    if (saudacao) {
+      saudacao.textContent =
+        "Olá, faça seu login!";
+    }
+
+    if (!container) return;
+
+    container.innerHTML = `
       <button
         type="button"
         id="perfil"
-        onclick="btnAbalogin()"
       >
         Entrar
       </button>
     `;
 
-    if (menuDropdown) {
-      menuDropdown.style.display = "none";
-    }
-
-    if (h2Saudacao) {
-      h2Saudacao.textContent = "Olá, Faça seu login!";
-    }
-
-    if (iconAgenda) {
-      iconAgenda.style.display = "none";
-    }
-
-    if (agendamentosTexto) {
-      agendamentosTexto.style.display = "none";
-    }
-  } catch (error) {
-    console.error("Erro inesperado ao verificar login:", error);
-  }
-}
-
-function toggleMenuPerfil() {
-  const menu = document.getElementById("menu-usuario-dropdown");
-  if (menu) {
-    menu.style.display = (menu.style.display === "none" || menu.style.display === "") ? "block" : "none";
-  }
-}
-
-window.addEventListener("click", function(e) {
-  const menu = document.getElementById("menu-usuario-dropdown");
-  const perfilLogado = document.getElementById("perfil-logado");
-  if (menu && menu.style.display === "block" && e.target !== perfilLogado && !menu.contains(e.target)) {
-    menu.style.display = "none";
-  }
-});
-
-async function fazerLogout() {
-  try {
-    const { error } =
-      await supabaseClient.auth.signOut();
-
-    if (error) {
-      throw error;
-    }
-
-    const menu =
-      document.getElementById("menu-usuario-dropdown");
-
-    if (menu) {
-      menu.style.display = "none";
-    }
-
-    await verificarLogin();
-  } catch (error) {
-    console.error("Erro ao sair:", error);
-    alert("Não foi possível sair da conta.");
-  }
-}
-
-// ========== FUNÇÃO DE ENTRAR ==========
-
-async function EntrarLogin() {
-  const emailInput = document.querySelector(".Email1");
-  const senhaInput = document.querySelector(".Senha1");
-  const botao = document.querySelector(".bntEntrar");
-
-  const email = emailInput?.value.trim().toLowerCase();
-  const senha = senhaInput?.value;
-
-  if (!email || !senha) {
-    alert("Preencha o e-mail e a senha.");
-    return;
-  }
-
-  try {
-    if (botao) {
-      botao.disabled = true;
-      botao.textContent = "Entrando...";
-    }
-
-    const { data, error } =
-      await supabaseClient.auth.signInWithPassword({
-        email,
-        password: senha
-      });
-
-    if (error) {
-      throw error;
-    }
-
-    if (!data.user) {
-      throw new Error("Usuário não encontrado.");
-    }
-
-    fecharModaisLogin();
-
-    await verificarLogin();
-
-    if (emailInput) emailInput.value = "";
-    if (senhaInput) senhaInput.value = "";
-  } catch (error) {
-    console.error("Erro no login:", error);
-
-    const mensagem =
-      error?.message?.toLowerCase() || "";
-
-    if (mensagem.includes("email not confirmed")) {
-      alert(
-        "Seu cadastro foi realizado, mas o e-mail ainda não foi confirmado. Verifique sua caixa de entrada e a pasta de spam."
+    document
+      .getElementById("perfil")
+      ?.addEventListener(
+        "click",
+        () => abrirModal(".login")
       );
+  }
+
+  function mostrarLogado(perfil) {
+    const container =
+      document.getElementById(
+        "container-perfil"
+      );
+
+    const agendamentos =
+      document.getElementById(
+        "agendamentos-link"
+      );
+
+    const menuNome =
+      document.getElementById(
+        "menu-nome"
+      );
+
+    const menuEmail =
+      document.getElementById(
+        "menu-email"
+      );
+
+    const menuAvatar =
+      document.getElementById(
+        "menu-avatar"
+      );
+
+    const saudacao =
+      document.querySelector(
+        ".h2Cabecalho"
+      );
+
+    if (!container) return;
+
+    document.body.classList.remove(
+      "deslogado"
+    );
+
+    mostrar(agendamentos);
+
+    if (saudacao) {
+      saudacao.textContent =
+        `Olá, ${perfil.nome}!`;
+    }
+
+    container.innerHTML = `
+      <button
+        type="button"
+        id="perfil-logado"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <span class="avatar-header"></span>
+
+        <span class="nome-header"></span>
+
+        <span
+          class="seta-header"
+          aria-hidden="true"
+        >
+          ▼
+        </span>
+      </button>
+    `;
+
+    const botao =
+      document.getElementById(
+        "perfil-logado"
+      );
+
+    const avatar =
+      botao?.querySelector(
+        ".avatar-header"
+      );
+
+    const nome =
+      botao?.querySelector(
+        ".nome-header"
+      );
+
+    if (nome) {
+      nome.textContent =
+        perfil.nome;
+    }
+
+    if (menuNome) {
+      menuNome.textContent =
+        perfil.nome;
+    }
+
+    if (menuEmail) {
+      menuEmail.textContent =
+        perfil.email;
+    }
+
+    preencherAvatar(
+      avatar,
+      perfil
+    );
+
+    preencherAvatar(
+      menuAvatar,
+      perfil
+    );
+
+    botao?.addEventListener(
+      "click",
+      (evento) => {
+        evento.stopPropagation();
+
+        alternarDropdown();
+      }
+    );
+
+    fecharModais();
+  }
+
+  async function verificarLogin() {
+    const supabase =
+      obterSupabase();
+
+    if (!supabase) {
+      mostrarDeslogado();
       return;
     }
 
-    if (mensagem.includes("invalid login credentials")) {
-      alert(
-        "E-mail ou senha incorretos. Confira os dados informados."
+    try {
+      const {
+        data: { user },
+        error
+      } =
+        await supabase.auth.getUser();
+
+      if (error || !user) {
+        mostrarDeslogado();
+        return;
+      }
+
+      const perfil =
+        await buscarPerfil(user);
+
+      mostrarLogado(perfil);
+    } catch (error) {
+      console.error(
+        "Erro ao verificar login:",
+        error
       );
+
+      mostrarDeslogado();
+    }
+  }
+
+  /* =======================================
+     ENTRAR
+  ======================================= */
+
+  async function entrar() {
+    const supabase =
+      obterSupabase();
+
+    const emailInput =
+      document.querySelector(
+        ".Email1"
+      );
+
+    const senhaInput =
+      document.querySelector(
+        ".Senha1"
+      );
+
+    const botao =
+      document.getElementById(
+        "confirmar-login"
+      );
+
+    const email =
+      emailInput?.value
+        .trim()
+        .toLowerCase();
+
+    const senha =
+      senhaInput?.value;
+
+    if (!supabase) {
+      alert(
+        "Não foi possível conectar ao Supabase."
+      );
+
       return;
     }
 
-    if (mensagem.includes("rate limit")) {
+    if (!email || !senha) {
       alert(
-        "Muitas tentativas seguidas. Aguarde alguns segundos e tente novamente."
+        "Preencha o e-mail e a senha."
       );
+
       return;
     }
 
-    alert(
-      `Não foi possível entrar: ${error.message}`
-    );
-  } finally {
-    if (botao) {
-      botao.disabled = false;
-      botao.textContent = "Entrar";
+    try {
+      if (botao) {
+        botao.disabled = true;
+        botao.textContent =
+          "Entrando...";
+      }
+
+      const { error } =
+        await supabase.auth
+          .signInWithPassword({
+            email,
+            password: senha
+          });
+
+      if (error) {
+        throw error;
+      }
+
+      if (emailInput) {
+        emailInput.value = "";
+      }
+
+      if (senhaInput) {
+        senhaInput.value = "";
+      }
+
+      fecharModais();
+
+      await verificarLogin();
+    } catch (error) {
+      console.error(
+        "Erro no login:",
+        error
+      );
+
+      const mensagem =
+        error?.message
+          ?.toLowerCase() || "";
+
+      if (
+        mensagem.includes(
+          "email not confirmed"
+        )
+      ) {
+        alert(
+          "Confirme seu e-mail antes de entrar."
+        );
+
+        return;
+      }
+
+      if (
+        mensagem.includes(
+          "invalid login credentials"
+        )
+      ) {
+        alert(
+          "E-mail ou senha incorretos."
+        );
+
+        return;
+      }
+
+      alert(
+        `Não foi possível entrar: ${
+          error.message
+        }`
+      );
+    } finally {
+      if (botao) {
+        botao.disabled = false;
+        botao.textContent = "Entrar";
+      }
     }
   }
-}
 
+  /* =======================================
+     CADASTRAR
+  ======================================= */
 
-async function CriarLogin() {
-  const emailInput =
-    document.querySelector(".EmailCadastro");
+  async function cadastrar() {
+    const supabase =
+      obterSupabase();
 
-  const senhaInput =
-    document.querySelector(".SenhaCadastro");
+    const nomeInput =
+      document.querySelector(
+        ".NomeCadastro"
+      );
 
-  const nomeInput =
-    document.querySelector(".NomeCadastro");
+    const emailInput =
+      document.querySelector(
+        ".EmailCadastro"
+      );
 
-  const botaoCadastro =
-    document.querySelector(
-      ".Cadastrar .bntEntrar"
-    );
+    const senhaInput =
+      document.querySelector(
+        ".SenhaCadastro"
+      );
 
-  const email =
-    emailInput?.value.trim().toLowerCase();
+    const botao =
+      document.getElementById(
+        "confirmar-cadastro"
+      );
 
-  const senha =
-    senhaInput?.value;
+    const nome =
+      nomeInput?.value.trim();
 
-  const nome =
-    nomeInput?.value.trim();
+    const email =
+      emailInput?.value
+        .trim()
+        .toLowerCase();
 
-  if (!nome || !email || !senha) {
-    alert("Preencha nome, e-mail e senha.");
-    return;
-  }
+    const senha =
+      senhaInput?.value;
 
-  if (senha.length < 6) {
-    alert(
-      "A senha precisa ter pelo menos 6 caracteres."
-    );
-    return;
-  }
+    if (!supabase) {
+      alert(
+        "Não foi possível conectar ao Supabase."
+      );
 
-  try {
-    if (botaoCadastro) {
-      botaoCadastro.disabled = true;
-      botaoCadastro.textContent =
-        "Criando conta...";
+      return;
     }
 
-    const { data, error } =
-      await supabaseClient.auth.signUp({
-        email,
-        password: senha,
-        options: {
-          data: {
-            nome
+    if (!nome || !email || !senha) {
+      alert(
+        "Preencha nome, e-mail e senha."
+      );
+
+      return;
+    }
+
+    if (senha.length < 6) {
+      alert(
+        "A senha precisa ter pelo menos 6 caracteres."
+      );
+
+      return;
+    }
+
+    try {
+      if (botao) {
+        botao.disabled = true;
+
+        botao.textContent =
+          "Criando conta...";
+      }
+
+      const { data, error } =
+        await supabase.auth.signUp({
+          email,
+          password: senha,
+
+          options: {
+            data: {
+              nome
+            }
           }
+        });
+
+      if (error) {
+        throw error;
+      }
+
+      fecharModais();
+
+      if (!data.session) {
+        alert(
+          "Conta criada! Confirme seu e-mail para entrar."
+        );
+
+        return;
+      }
+
+      await verificarLogin();
+    } catch (error) {
+      console.error(
+        "Erro no cadastro:",
+        error
+      );
+
+      const mensagem =
+        error?.message
+          ?.toLowerCase() || "";
+
+      if (
+        mensagem.includes(
+          "already registered"
+        )
+      ) {
+        alert(
+          "Este e-mail já está cadastrado."
+        );
+
+        return;
+      }
+
+      alert(
+        `Não foi possível cadastrar: ${
+          error.message
+        }`
+      );
+    } finally {
+      if (botao) {
+        botao.disabled = false;
+
+        botao.textContent =
+          "Cadastrar";
+      }
+    }
+  }
+
+  /* =======================================
+     REENVIAR CONFIRMAÇÃO
+  ======================================= */
+
+  async function reenviarConfirmacao() {
+    const supabase =
+      obterSupabase();
+
+    const email =
+      document
+        .querySelector(".Email1")
+        ?.value.trim()
+        .toLowerCase();
+
+    if (!supabase) return;
+
+    if (!email) {
+      alert(
+        "Digite seu e-mail primeiro."
+      );
+
+      return;
+    }
+
+    try {
+      const { error } =
+        await supabase.auth.resend({
+          type: "signup",
+          email
+        });
+
+      if (error) {
+        throw error;
+      }
+
+      alert(
+        "E-mail de confirmação reenviado."
+      );
+    } catch (error) {
+      console.error(
+        "Erro ao reenviar confirmação:",
+        error
+      );
+
+      alert(
+        `Não foi possível reenviar: ${
+          error.message
+        }`
+      );
+    }
+  }
+
+  /* =======================================
+     LOGOUT
+  ======================================= */
+
+  async function sair() {
+    const supabase =
+      obterSupabase();
+
+    if (!supabase) return;
+
+    const botao =
+      document.getElementById(
+        "btn-logout"
+      );
+
+    try {
+      if (botao) {
+        botao.disabled = true;
+        botao.textContent = "Saindo...";
+      }
+
+      const { error } =
+        await supabase.auth.signOut();
+
+      if (error) {
+        throw error;
+      }
+
+      mostrarDeslogado();
+    } catch (error) {
+      console.error(
+        "Erro ao sair:",
+        error
+      );
+
+      alert(
+        "Não foi possível sair da conta."
+      );
+    } finally {
+      if (botao) {
+        botao.disabled = false;
+        botao.textContent =
+          "Sair da conta";
+      }
+    }
+  }
+
+  /* =======================================
+     RESERVAR
+  ======================================= */
+
+  window.btnReserva =
+    async function btnReserva(
+      barbeariaId
+    ) {
+      const supabase =
+        obterSupabase();
+
+      if (!barbeariaId) {
+        alert(
+          "Barbearia inválida."
+        );
+
+        return;
+      }
+
+      if (!supabase) {
+        alert(
+          "Não foi possível verificar sua conta."
+        );
+
+        return;
+      }
+
+      try {
+        const {
+          data: { user }
+        } =
+          await supabase.auth.getUser();
+
+        if (!user) {
+          alert(
+            "Faça login para reservar."
+          );
+
+          abrirModal(".login");
+
+          return;
         }
+
+        window.location.href =
+          `/Page/Barbearia/barbearia.html?id=${encodeURIComponent(
+            barbeariaId
+          )}`;
+      } catch (error) {
+        console.error(
+          "Erro ao iniciar reserva:",
+          error
+        );
+      }
+    };
+
+  /* =======================================
+     EVENTOS
+  ======================================= */
+
+  function registrarEventos() {
+    document
+      .getElementById("perfil")
+      ?.addEventListener(
+        "click",
+        () => abrirModal(".login")
+      );
+
+    document
+      .getElementById("abrir-login")
+      ?.addEventListener(
+        "click",
+        () => abrirModal(".Entrar")
+      );
+
+    document
+      .getElementById(
+        "abrir-cadastro"
+      )
+      ?.addEventListener(
+        "click",
+        () => abrirModal(".Cadastrar")
+      );
+
+    document
+      .getElementById(
+        "confirmar-login"
+      )
+      ?.addEventListener(
+        "click",
+        entrar
+      );
+
+    document
+      .getElementById(
+        "confirmar-cadastro"
+      )
+      ?.addEventListener(
+        "click",
+        cadastrar
+      );
+
+    document
+      .getElementById(
+        "reenviar-confirmacao"
+      )
+      ?.addEventListener(
+        "click",
+        reenviarConfirmacao
+      );
+
+    document
+      .getElementById("btn-logout")
+      ?.addEventListener(
+        "click",
+        sair
+      );
+
+    document
+      .querySelectorAll(
+        ".fechar-modal"
+      )
+      .forEach((botao) => {
+        botao.addEventListener(
+          "click",
+          fecharModais
+        );
       });
 
-    if (error) {
-      throw error;
-    }
-
-    if (!data.session) {
-      fecharModaisLogin();
-
-      alert(
-        "Conta criada! Enviamos um link de confirmação para seu e-mail. Verifique também a pasta de spam."
-      );
-
-      return;
-    }
-
-    fecharModaisLogin();
-    await verificarLogin();
-
-    alert(`Bem-vindo, ${nome}!`);
-  } catch (error) {
-    console.error(
-      "Erro ao criar conta:",
-      error
-    );
-
-    const mensagem =
-      error?.message?.toLowerCase() || "";
-
-    if (
-      mensagem.includes(
-        "only request this after"
+    document
+      .querySelectorAll(
+        ".voltar-modal"
       )
-    ) {
-      alert(
-        "Aguarde alguns segundos antes de tentar criar a conta novamente."
-      );
-      return;
-    }
-
-    if (
-      mensagem.includes(
-        "already registered"
-      )
-    ) {
-      alert(
-        "Este e-mail já está cadastrado. Tente entrar em vez de criar outra conta."
-      );
-      return;
-    }
-
-    alert(
-      `Não foi possível criar a conta: ${error.message}`
-    );
-  } finally {
-    if (botaoCadastro) {
-      botaoCadastro.disabled = false;
-      botaoCadastro.textContent =
-        "Cadastrar";
-    }
-  }
-}
-
-async function reenviarConfirmacao() {
-  const emailInput =
-    document.querySelector(".Email1");
-
-  const email =
-    emailInput?.value.trim().toLowerCase();
-
-  if (!email) {
-    alert(
-      "Digite seu e-mail primeiro."
-    );
-    return;
-  }
-
-  try {
-    const { error } =
-      await supabaseClient.auth.resend({
-        type: "signup",
-        email
+      .forEach((botao) => {
+        botao.addEventListener(
+          "click",
+          () => abrirModal(".login")
+        );
       });
 
-    if (error) {
-      throw error;
-    }
+    document
+      .querySelectorAll(
+        ".modal-autenticacao"
+      )
+      .forEach((modal) => {
+        modal.addEventListener(
+          "click",
+          (evento) => {
+            if (evento.target === modal) {
+              fecharModais();
+            }
+          }
+        );
+      });
 
-    alert(
-      "E-mail de confirmação reenviado. Verifique sua caixa de entrada e a pasta de spam."
-    );
-  } catch (error) {
-    console.error(
-      "Erro ao reenviar confirmação:",
-      error
+    document.addEventListener(
+      "click",
+      (evento) => {
+        const menu =
+          document.getElementById(
+            "menu-usuario-dropdown"
+          );
+
+        const perfil =
+          document.getElementById(
+            "perfil-logado"
+          );
+
+        if (
+          menu?.contains(evento.target) ||
+          perfil?.contains(evento.target)
+        ) {
+          return;
+        }
+
+        fecharDropdown();
+      }
     );
 
-    const mensagem =
-      error?.message?.toLowerCase() || "";
+    document.addEventListener(
+      "keydown",
+      (evento) => {
+        if (evento.key === "Escape") {
+          fecharDropdown();
+          fecharModais();
+        }
+
+        if (
+          evento.key === "Enter" &&
+          document.activeElement
+            ?.classList.contains(
+              "Senha1"
+            )
+        ) {
+          entrar();
+        }
+
+        if (
+          evento.key === "Enter" &&
+          document.activeElement
+            ?.classList.contains(
+              "SenhaCadastro"
+            )
+        ) {
+          cadastrar();
+        }
+      }
+    );
+  }
+
+  /* =======================================
+     INICIAR
+  ======================================= */
+
+  async function iniciar() {
+    atualizarDataCabecalho();
+    iniciarBusca();
+    registrarEventos();
+
+    await verificarLogin();
+
+    const supabase =
+      obterSupabase();
 
     if (
-      mensagem.includes(
-        "only request this after"
-      )
+      supabase &&
+      !inscricaoAuth
     ) {
-      alert(
-        "Aguarde alguns segundos antes de solicitar outro e-mail."
-      );
-      return;
-    }
+      const resposta =
+        supabase.auth
+          .onAuthStateChange(() => {
+            setTimeout(() => {
+              verificarLogin();
+            }, 0);
+          });
 
-    alert(
-      `Não foi possível reenviar: ${error.message}`
+      inscricaoAuth =
+        resposta.data.subscription;
+    }
+  }
+
+  if (
+    document.readyState === "loading"
+  ) {
+    document.addEventListener(
+      "DOMContentLoaded",
+      iniciar,
+      { once: true }
     );
+  } else {
+    iniciar();
   }
-}
-
-function fecharModaisLogin() {
-  const login = document.querySelector(".login");
-  const entrar = document.querySelector(".Entrar");
-  const cadastros = document.querySelectorAll(".Cadastrar");
-
-  if (login) {
-    login.style.display = "none";
-  }
-
-  if (entrar) {
-    entrar.style.display = "none";
-  }
-
-  cadastros.forEach((cadastro) => {
-    cadastro.style.display = "none";
-  });
-}
-
-async function buscarPerfilUsuario(user) {
-  try {
-    const { data, error } = await supabaseClient
-      .from("usuarios")
-      .select("id, nome, email, foto_perfil, role")
-      .eq("id", user.id)
-      .maybeSingle();
-
-    if (error) {
-      console.error("Erro ao buscar perfil:", error);
-    }
-
-    return {
-      id: user.id,
-
-      nome:
-        data?.nome ||
-        user.user_metadata?.nome ||
-        user.email?.split("@")[0] ||
-        "Usuário",
-
-      email:
-        data?.email ||
-        user.email ||
-        "",
-
-      foto_perfil:
-        data?.foto_perfil ||
-        null,
-
-      role:
-        data?.role ||
-        "CLIENTE"
-    };
-  } catch (error) {
-    console.error("Erro inesperado ao buscar perfil:", error);
-
-    return {
-      id: user.id,
-      nome:
-        user.user_metadata?.nome ||
-        user.email?.split("@")[0] ||
-        "Usuário",
-      email: user.email || "",
-      foto_perfil: null,
-      role: "CLIENTE"
-    };
-  }
-}
-// ========== CAPTURAR DIGITAÇÃO NA INDEX E REDIRECIONAR ==========
-document.addEventListener("DOMContentLoaded", async () => {
-  await verificarLogin();
-});
-
-
-supabaseClient.auth.onAuthStateChange((evento, sessao) => {
-  console.log("Estado da autenticação:", evento);
-
-  setTimeout(() => {
-    verificarLogin();
-  }, 0);
-});
-
-// ========== Outras funções ==========
-
-
-function btnAbalogin() {
-    const login = document.querySelector('.login');
-    const entrar = document.querySelector('.Entrar');
-    const cadastrar = document.querySelector('.Cadastrar');
-
-    if (login.style.display === 'flex' || entrar.style.display === 'flex' || cadastrar.style.display === 'flex') {
-        login.style.display = 'none';
-        entrar.style.display = 'none';
-        cadastrar.style.display = 'none';
-    } else {
-        login.style.display = 'flex'; 
-    }
-}
-
-function btnIrParaEntrar() {
-    document.querySelector('.login').style.display = 'none';
-    document.querySelector('.Entrar').style.display = 'flex';
-}
-
-function btnIrParaCadastrar() {
-    document.querySelector('.login').style.display = 'none';
-    document.querySelector('.Cadastrar').style.display = 'flex';
-}
-
-function btnVoltarParaMenu() {
-    document.querySelector('.Entrar').style.display = 'none';
-    document.querySelector('.Cadastrar').style.display = 'none';
-    document.querySelector('.login').style.display = 'flex';
-}
-
-// ========== INICIAR ==========
-document.addEventListener(
-  "DOMContentLoaded",
-  async () => {
-    await verificarLogin();
-  }
-);
-
-supabaseClient.auth.onAuthStateChange(
-  (evento, sessao) => {
-    console.log(
-      "Estado da autenticação:",
-      evento
-    );
-
-    setTimeout(() => {
-      verificarLogin();
-    }, 0);
-  }
-);
+})();

@@ -1,175 +1,366 @@
-
 <!doctype html>
-<html lang="pt-br">
+<html lang="pt-BR">
   <head>
-
     <meta charset="UTF-8" />
 
-    <!-- Fonte Sora -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Sora:wght@100..800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="style.css" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@200..1000&family=Sora:wght@100..800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="./style.css"
+    />
+
+    <!-- Carregue depois do style.css -->
+    <link
+      rel="stylesheet"
+      href="./perfil-header.css"
+    />
+
     <title>BarberExpress</title>
   </head>
 
-  <body>
-    <!-- topo do site (header) -->
+  <body class="deslogado">
     <header class="topo">
       <div class="logo">
-        <a id="Tesoura" href="index.html"><img src="./img/logo/Tesoura.svg" /></a>
-        <a id="BarberExpress" href="index.html"><img src="./img/logo/nomeLogo.svg" /></a>
+        <a
+          id="Tesoura"
+          href="./index.html"
+          aria-label="Página inicial"
+        >
+          <img
+            src="./img/logo/Tesoura.svg"
+            alt=""
+          />
+        </a>
+
+        <a
+          id="BarberExpress"
+          href="./index.html"
+        >
+          <img
+            src="./img/logo/nomeLogo.svg"
+            alt="BarberExpress"
+          />
+        </a>
       </div>
 
-          <div class="div_perfil" style="position: relative;">
-            <img src="img/icon/agenda.svg" id="icon-agenda" style="display: none" />
-          <button id="agendamentos-texto" style="border: none; background-color: transparent; cursor: pointer ;"
-            onclick="location.href='Page/Agendamentos/agendamentos.html'">
+      <!-- Perfil do header -->
+      <div
+        class="div_perfil"
+        id="area-perfil"
+      >
+        <a
+          href="./Page/Agendamentos/agendamentos.html"
+          id="agendamentos-link"
+          class="agendamentos-link"
+          hidden
+        >
+          <img
+            src="./img/icon/agenda.svg"
+            id="icon-agenda"
+            alt=""
+          />
+
+          <span id="agendamentos-texto">
             Agendamentos
-          </button>            
-            <div id="container-perfil">
-              <button id="perfil" onclick="btnAbalogin()">Entrar</button>
-            </div>
+          </span>
+        </a>
 
-            <div id="menu-usuario-dropdown" style="display: none;">
-              <div class="menu-dropdown-conteudo">
-                <div class="avatar-grande">👤</div>
-                <h3 id="menu-nome">Nome</h3>
-                <p id="menu-email">email@provedor.com</p>
-                <hr class="divisor-menu">
-                <button id="btn-logout-google" onclick="fazerLogout()">Sair da conta</button>
-              </div>
-            </div>
-          </div>
-
-    </header>
-
-   <div class="login" style="display: none;">
-      <div class="login-content">
-        <button class="bt-fechar-login" onclick="btnAbalogin()">X</button>
-        <h2>Faça login na plataforma</h2>
-        <p>Conecte-se usando sua conta do Crie ou Entre.</p>
-
-        <div class="login-buttons">
-          <button onclick="btnIrParaCadastrar()">
-            Criar Conta
-          </button>
-
-          <button onclick="btnIrParaEntrar()">
+        <div id="container-perfil">
+          <button
+            type="button"
+            id="perfil"
+          >
             Entrar
           </button>
+        </div>
 
+        <div
+          id="menu-usuario-dropdown"
+          hidden
+        >
+          <div class="menu-dropdown-conteudo">
+            <div
+              id="menu-avatar"
+              class="avatar-grande"
+            >
+              U
+            </div>
+
+            <h3 id="menu-nome">
+              Usuário
+            </h3>
+
+            <p id="menu-email">
+              email@provedor.com
+            </p>
+
+            <hr class="divisor-menu" />
+
+            <button
+              type="button"
+              id="btn-logout"
+            >
+              Sair da conta
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Modal principal -->
+    <div
+      class="modal-autenticacao login"
+      hidden
+    >
+      <div class="modal-conteudo">
+        <button
+          type="button"
+          class="fechar-modal"
+          aria-label="Fechar"
+        >
+          ×
+        </button>
+
+        <h2>Acesse a plataforma</h2>
+
+        <p>
+          Entre na sua conta ou crie um cadastro
+          para realizar agendamentos.
+        </p>
+
+        <div class="opcoes-autenticacao">
+          <button
+            type="button"
+            id="abrir-cadastro"
+          >
+            Criar conta
+          </button>
+
+          <button
+            type="button"
+            id="abrir-login"
+          >
+            Entrar
+          </button>
         </div>
       </div>
     </div>
 
-    <div class="Entrar" style="display: none;">
-      <div class="entrar-content">
-        <button class="bt-voltar-entrar" onclick="btnVoltarParaMenu()"><</button>
-        <button class="bt-fechar-entrar" onclick="btnAbalogin()">X</button>
-        <h2>Faça login na plataforma</h2>
+    <!-- Modal de login -->
+    <div
+      class="modal-autenticacao Entrar"
+      hidden
+    >
+      <div class="modal-conteudo">
+        <button
+          type="button"
+          class="voltar-modal"
+          aria-label="Voltar"
+        >
+          ‹
+        </button>
 
-        <input type="text" class="Email1" placeholder="Email" />
-        <input type="password" class="Senha1" placeholder="Senha" />
+        <button
+          type="button"
+          class="fechar-modal"
+          aria-label="Fechar"
+        >
+          ×
+        </button>
 
-        <button class="bntEntrar" onclick="EntrarLogin()">Entrar</button>
-            <button
-      type="button" class="btn-reenviar-confirmacao"onclick="reenviarConfirmacao()">Não recebeu o e-mail? Reenviar confirmação</button>
+        <h2>Entre na sua conta</h2>
+
+        <input
+          type="email"
+          class="Email1"
+          placeholder="E-mail"
+          autocomplete="email"
+        />
+
+        <input
+          type="password"
+          class="Senha1"
+          placeholder="Senha"
+          autocomplete="current-password"
+        />
+
+        <button
+          type="button"
+          id="confirmar-login"
+          class="botao-autenticacao"
+        >
+          Entrar
+        </button>
+
+        <button
+          type="button"
+          id="reenviar-confirmacao"
+          class="botao-link"
+        >
+          Não recebeu o e-mail? Reenviar confirmação
+        </button>
       </div>
     </div>
 
-    <div class="Cadastrar" style="display: none;">
-      <div class="entrar-content">
-        <button class="bt-voltar-entrar" onclick="btnAbalogin()">X</button>
-        <button class="bt-fechar-entrar" onclick="btnAbalogin()">X</button>
+    <!-- Modal de cadastro -->
+    <div
+      class="modal-autenticacao Cadastrar"
+      hidden
+    >
+      <div class="modal-conteudo">
+        <button
+          type="button"
+          class="voltar-modal"
+          aria-label="Voltar"
+        >
+          ‹
+        </button>
+
+        <button
+          type="button"
+          class="fechar-modal"
+          aria-label="Fechar"
+        >
+          ×
+        </button>
+
         <h2>Crie sua conta</h2>
 
-        <input type="text" class="EmailCadastro" placeholder="Email" />
-        <input type="password" class="SenhaCadastro" placeholder="Senha" />
-        <input type="text" class="NomeCadastro" placeholder="Nome" />
+        <input
+          type="text"
+          class="NomeCadastro"
+          placeholder="Nome"
+          autocomplete="name"
+        />
 
+        <input
+          type="email"
+          class="EmailCadastro"
+          placeholder="E-mail"
+          autocomplete="email"
+        />
 
+        <input
+          type="password"
+          class="SenhaCadastro"
+          placeholder="Senha"
+          autocomplete="new-password"
+        />
 
-        <button class="bntEntrar" onclick="CriarLogin()">Cadastrar</button>
+        <button
+          type="button"
+          id="confirmar-cadastro"
+          class="botao-autenticacao"
+        >
+          Cadastrar
+        </button>
       </div>
     </div>
-
-    <div class="Cadastrar" style="display: none;">
-      <div class="entrar-content">
-        <button class="bt-voltar-entrar" onclick="btnAbaVoltarCadastro()"><</button>
-        <h2>Crie sua conta</h2>
-
-        <input type="text" class="EmailCadastro" placeholder="Email" />
-        <input type="password" class="SenhaCadastro" placeholder="Senha" />
-
-        <button class="bntEntrar" onclick="CriarLogin()">Cadastrar Conta</button>
-      </div>
-    </div>
-
-
 
     <section class="LoginCubo1">
       <div class="cabecalho-conteudo">
-
         <div class="cabecalho-esquerda">
-          <h2 class="h2Cabecalho">Olá, Faça seu login!</h2>
-          <h4 class="h4Cabecalho" id="data-cabecalho"></h4>
+          <h2 class="h2Cabecalho">
+            Olá, faça seu login!
+          </h2>
+
+          <h4
+            class="h4Cabecalho"
+            id="data-cabecalho"
+          ></h4>
 
           <div class="busca-container">
             <input
               type="text"
-              placeholder="Buscar Barbearias"
+              placeholder="Buscar barbearias"
               class="buscBarb"
+              autocomplete="off"
             />
-            <button class="btnPesquisa" onclick="PesBtn()"></button>
+
+            <button
+              type="button"
+              class="btnPesquisa"
+              aria-label="Pesquisar"
+            ></button>
           </div>
+
           <div class="agendamentos">
-           <br><br>
+            <br />
+            <br />
 
-           <article class="card-agendamento">
-            <div class="lado-esquerdo">
-              <span class="status confirmado">Confirmado</span>
-              <h3 id="nome-do-serviço-card-de-agendamento">Corte de cabelo</h3>
+            <article class="card-agendamento">
+              <div class="lado-esquerdo">
+                <span class="status confirmado">
+                  Confirmado
+                </span>
 
-              <div class="barbearia-mini">
-                <img src="../../img/logo/imagem7.svg" alt="Vintage Barber" />
-                <span>Vintage Barber</span>
+                <h3 id="nome-do-serviço-card-de-agendamento">
+                  Corte de cabelo
+                </h3>
+
+                <div class="barbearia-mini">
+                  <img
+                    src="./img/logo/imagem7.svg"
+                    alt="Vintage Barber"
+                  />
+
+                  <span>
+                    Vintage Barber
+                  </span>
+                </div>
               </div>
-            </div>
 
-            <div class="lado-direito">
-              <span>Fevereiro</span>
-              <h2>06</h2>
-              <span>09:45</span>
-            </div>
-          </article>
+              <div class="lado-direito">
+                <span>Fevereiro</span>
+                <h2>06</h2>
+                <span>09:45</span>
+              </div>
+            </article>
           </div>
         </div>
 
         <div class="Recomendados">
-          <h2 class="RECO">Recomendados</h2>
+          <h2 class="RECO">
+            Recomendados
+          </h2>
 
-          <button class="btn-scrollEs esquerda" onclick="rolarRecomendados(-1)">
+          <button
+            type="button"
+            class="btn-scrollEs esquerda"
+            onclick="rolarRecomendados(-1)"
+            aria-label="Voltar"
+          >
             ❮
           </button>
 
-          <!-- Container vazio - preenchido pelo seed.js -->
-          <div id="cardsRecomendados">
-            
-          </div>
+          <div id="cardsRecomendados"></div>
 
-          <button class="btn-scrollDi direita" onclick="rolarRecomendados(1)">
+          <button
+            type="button"
+            class="btn-scrollDi direita"
+            onclick="rolarRecomendados(1)"
+            aria-label="Avançar"
+          >
             ❯
           </button>
         </div>
@@ -177,37 +368,69 @@
     </section>
 
     <section class="Populares">
-      <h2 class="POPU">Populares</h2>
+      <h2 class="POPU">
+        Populares
+      </h2>
 
-      <button class="btn-scrollEs esquerda" onclick="rolarPopulares(-1)">
+      <button
+        type="button"
+        class="btn-scrollEs esquerda"
+        onclick="rolarPopulares(-1)"
+        aria-label="Voltar"
+      >
         ❮
       </button>
 
-      <!-- Container vazio - preenchido pelo seed.js -->
       <div id="cardsPopulares"></div>
 
-      <button class="btn-scrollDi direita" onclick="rolarPopulares(1)">
+      <button
+        type="button"
+        class="btn-scrollDi direita"
+        onclick="rolarPopulares(1)"
+        aria-label="Avançar"
+      >
         ❯
       </button>
     </section>
 
     <section class="MaisVisitados">
-      <h2 class="MaisVis">Mais Visitados</h2>
+      <h2 class="MaisVis">
+        Mais visitados
+      </h2>
 
-      <button class="btn-scrollEs esquerda" onclick="rolarMaisVisitados(-1)">
+      <button
+        type="button"
+        class="btn-scrollEs esquerda"
+        onclick="rolarMaisVisitados(-1)"
+        aria-label="Voltar"
+      >
         ❮
       </button>
 
-      <!-- Container vazio - preenchido pelo seed.js -->
       <div id="cardsMaisVisitados"></div>
 
-      <button class="btn-scrollDi direita" onclick="rolarMaisVisitados(1)">
+      <button
+        type="button"
+        class="btn-scrollDi direita"
+        onclick="rolarMaisVisitados(1)"
+        aria-label="Avançar"
+      >
         ❯
       </button>
     </section>
 
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <script src="seed.js"></script>
-    <script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="./supabase-client.js"></script>
+
+<script src="./render.js"></script>
+
+<script src="./perfil-header.js"></script>
+
+<script src="./seed.js"></script>
+
+<script src="./script.js"></script>
+
+
   </body>
 </html>

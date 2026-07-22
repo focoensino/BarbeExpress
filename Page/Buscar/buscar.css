@@ -1,146 +1,229 @@
 :root {
-  /* ===== CORES ===== */
-  --dark-purple: #22174d;
-  --primary-purple: #003cff;
-  --light-purple: #8162ff;
+  /* CORES */
 
-  --background-black: #141518;
-  --secondary-black: #1a1b1f;
+  --primary-blue: #003cff;
+  --primary-blue-hover: #1b51ff;
 
-  --gray-01: #26272b;
-  --gray-02: #4e525b;
-  --gray-03: #838896;
+  --background-black: #111216;
+  --header-black: rgba(17, 18, 22, 0.95);
 
-  --white: #ffffff;
-  --red: #ff4444;
-  --dark-red: #2f1f1f;
+  --card-background: #191a1f;
+  --button-background: #26272d;
+  --button-hover: #303239;
 
-  /* ===== FONTES ===== */
+  --border-color: #27292f;
+  --border-hover: #373941;
+
+  --text-white: #ffffff;
+  --text-secondary: #9296a1;
+  --text-muted: #696e79;
+
+  --rating-background: #1c256c;
+  --rating-star: #2357ff;
+
+  --error: #ff5454;
+
+  /* FONTE */
+
   --font-primary: "Sora", sans-serif;
-  --font-secondary: "Nunito", sans-serif;
-
-  /* ===== PESOS ===== */
-  --font-thin: 100;
-  --font-extra-light: 200;
-  --font-light: 300;
-  --font-regular: 400;
-  --font-medium: 500;
-  --font-semi-bold: 600;
-  --font-bold: 700;
-  --font-extra-bold: 800;
-
-  /* ===== TAMANHOS ===== */
-  --font-size-8: 8px;
-  --font-size-10: 10px;
-  --font-size-12: 12px;
-  --font-size-14: 14px;
-  --font-size-16: 16px;
-  --font-size-18: 18px;
-  --font-size-20: 20px;
-  --font-size-24: 24px;
-  --font-size-30: 30px;
 }
 
-/* inicio do css */
+/* =========================================
+   CONFIGURAÇÕES GERAIS
+========================================= */
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  min-height: 100vh;
+
+  background-color: var(--background-black);
+  color: var(--text-white);
 
   font-family: var(--font-primary);
 }
 
-body {
-  background-color: var(--background-black);
-}
+/* =========================================
+   HEADER
+========================================= */
 
-/* topo da tela Home */
 .topo {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
   width: 100%;
-  height: 72px;
-  background: var(--background-black);
+  min-height: 72px;
 
-  display: flex;
+  display: grid;
+  grid-template-columns:
+    auto
+    minmax(280px, 700px)
+    auto;
+
   align-items: center;
-  justify-content: space-between;
+  gap: 40px;
 
-  padding: 0px 96px;
+  padding: 0 6vw;
 
+  background-color: var(--header-black);
+  border-bottom: 1px solid var(--border-color);
 
-  border-bottom: 1px solid var(--gray-01);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
-/* LOGO */
+/* =========================================
+   LOGO
+========================================= */
 
 .logo {
   display: flex;
   align-items: center;
   gap: 8px;
+
+  text-decoration: none;
 }
 
-/* BUSCA */
+.logo-tesoura {
+  width: 27px;
+  height: 27px;
+
+  display: block;
+}
+
+.logo-nome {
+  width: 125px;
+  height: auto;
+
+  display: block;
+}
+
+/* =========================================
+   BUSCA
+========================================= */
 
 .busca-container {
-  flex: 1;
+  width: 100%;
+  height: 42px;
 
   display: flex;
-  justify-content: center;
   align-items: center;
-
-  max-width: 700px;
-  margin: 0 40px;
 }
 
 .buscBarb {
   width: 100%;
-  height: 36px;
+  height: 42px;
 
-  background: var(--secondary-black);
-  border: 1px solid var(--gray-01);
+  padding: 0 16px;
 
-  border-radius: 8px 0 0 8px;
+  color: var(--text-white);
+  background-color: var(--card-background);
 
-  color: var(--white);
-
-  padding: 0 15px;
+  border: 1px solid var(--border-color);
+  border-right: none;
+  border-radius: 10px 0 0 10px;
 
   outline: none;
+
+  font-family: var(--font-primary);
+  font-size: 14px;
+  font-weight: 400;
+
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .buscBarb::placeholder {
-  color: var(--gray-03);
+  color: var(--text-muted);
 }
 
-.btnPesquisa {
-  width: 40px;
-  height: 36px;
+.buscBarb:focus {
+  background-color: #1d1e23;
+  border-color: var(--primary-blue);
+}
 
-  border: none;
-
-  background-color: var(--primary-purple);
-  background-image: url("../../img/icon/lupa.svg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 14px;
-
-  border-radius: 0 8px 8px 0;
-
+.buscBarb::-webkit-search-cancel-button {
   cursor: pointer;
 }
 
-/* PERFIL */
+.btnPesquisa {
+  width: 48px;
+  min-width: 48px;
+  height: 42px;
+
+  border: none;
+  border-radius: 0 10px 10px 0;
+
+  background-color: var(--primary-blue);
+  background-image: url("../../img/icon/lupa.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 16px;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.btnPesquisa:hover {
+  background-color: var(--primary-blue-hover);
+}
+
+.btnPesquisa:active {
+  transform: scale(0.97);
+}
+
+/* =========================================
+   PERFIL
+========================================= */
 
 .div_perfil {
   display: flex;
   align-items: center;
-  gap: 20px;
+  justify-content: flex-end;
+  gap: 22px;
 }
 
-#agendamentos-texto {
-  color: var(--white);
+.atalho-agendamentos {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: var(--text-secondary);
+  background: transparent;
+
+  border: none;
+
+  font-family: var(--font-primary);
   font-size: 12px;
   font-weight: 400;
+
+  cursor: pointer;
+
+  transition: color 0.2s ease;
+}
+
+.atalho-agendamentos:hover {
+  color: var(--text-white);
+}
+
+.atalho-agendamentos img {
+  width: 18px;
+  height: 18px;
+
+  display: block;
 }
 
 .perfil-user {
@@ -150,140 +233,426 @@ body {
 }
 
 .perfil-user img {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
+
+  display: block;
+
+  object-fit: cover;
+
+  border: 1px solid var(--border-color);
   border-radius: 50%;
 }
 
 #nomeperfil {
-  color: var(--white);
+  max-width: 150px;
+
+  color: var(--text-white);
+
   font-size: 12px;
   font-weight: 500;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-.container-reserva {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 370px;
-  height: 100vh;
-  background-color: var(--background-black);
-  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
-  z-index: 9999;
-  padding: 10px 20px 20px 20px;
-  box-sizing: border-box;
-  display: none;
+/* =========================================
+   CONTEÚDO DA PÁGINA
+========================================= */
+
+.pagina-busca {
+  width: min(1280px, calc(100% - 64px));
+
+  margin: 0 auto;
+  padding: 44px 0 72px;
 }
 
-.container-reserva {
-  width: 370px;
-  height: 100%;
-  align-items: center;
-  background-color: var(--background-black);
+.cabecalho-resultados {
+  margin-bottom: 28px;
 }
 
-.container-reserva.ativo {
+.subtitulo-resultados {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: var(--primary-blue);
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+}
+
+#titulo-resultados {
+  color: var(--text-white);
+
+  font-size: clamp(23px, 3vw, 32px);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.descricao-resultados {
+  margin-top: 8px;
+
+  color: var(--text-secondary);
+
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* =========================================
+   LISTA DE CARDS
+========================================= */
+
+.lista-resultados {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(218px, 218px)
+  );
+
+  justify-content: start;
+  gap: 24px;
+}
+
+/* =========================================
+   CARD
+========================================= */
+
+.card-resultados {
+  width: 218px;
+  min-height: 292px;
+
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: 10px;
+
+  padding: 9px;
+
+  background-color: var(--card-background);
+
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.18);
+
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
 }
 
-.title-container-reserva {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.card-resultados:hover {
+  transform: translateY(-4px);
+
+  border-color: var(--border-hover);
+
+  box-shadow:
+    0 16px 36px rgba(0, 0, 0, 0.3);
+}
+
+/* =========================================
+   IMAGEM DO CARD
+========================================= */
+
+.imagem-resultado {
+  position: relative;
+
   width: 100%;
-  height: auto;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-top: 0px;
-  color: var(--white);
-}
+  height: 156px;
 
-.title-container-reserva.show {
-  display: block;
-}
-
-.title-container-reserva {
   display: flex;
-  width: 370px;
-  height: 40px;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-top: 20px;
-  color: var(--white);
+  align-items: center;
+  justify-content: center;
+
+  background-color: var(--button-background);
+
+  border-radius: 14px;
+
+  overflow: hidden;
 }
 
-.botao-fechar-container-reserva {
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-  margin-left: 180px;
+.foto-barbearia-resultado {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+  object-position: center;
+
+  transition: transform 0.35s ease;
 }
 
-#botao-confirmar-reserva {
-  background-color: var(--primary-purple);
-  color: white;
-  border-radius: 10px;
-  border: none;
-  width: 330px;
-  height: 36px;
+.card-resultados:hover
+  .foto-barbearia-resultado {
+  transform: scale(1.035);
 }
 
-/* RESULTADO DE PESQUISA */
+/* =========================================
+   AVALIAÇÃO SOBRE A IMAGEM
+========================================= */
 
-.resultados {
-    color: var(--white);
-  font-size: 13px;
-  font-weight: 317;
-  font-family: var(--font-secondary);
+.avaliacao-card {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
 
-  margin-left: 100px;
-  margin-top: 40px;
+  min-height: 27px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  padding: 5px 10px;
+
+  color: var(--text-white);
+  background-color: rgba(29, 36, 102, 0.94);
+
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.28);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
-/* CARD DO RESULTADO DE PESQUISA */
+/* Deixa a estrela azul como na referência */
+
+.avaliacao-card::first-letter {
+  color: var(--rating-star);
+}
+
+/* =========================================
+   SEM FOTO
+========================================= */
+
+.imagem-resultado.sem-foto {
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(0, 60, 255, 0.28),
+      transparent 50%
+    ),
+    linear-gradient(
+      145deg,
+      #292b32,
+      #1d1e23
+    );
+}
+
+.imagem-resultado.sem-foto > span {
+  color: rgba(255, 255, 255, 0.72);
+
+  font-size: 48px;
+  font-weight: 600;
+}
+
+/* =========================================
+   INFORMAÇÕES DO CARD
+========================================= */
+
+.conteudo-resultado {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 13px 2px 1px;
+}
 
 .nome-do-card {
-    color: var(--white);
-  font-size: 20px;
-  font-weight: 317;
-  font-family: var(--font-secondary);
+  color: var(--text-white);
 
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+
+  overflow: hidden;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .informcao-do-card {
-    color: var(--gray-03);
-    font-size: 15px;
-  font-weight: 317;
-  font-family: var(--font-secondary);
+  margin-top: 5px;
+  margin-bottom: 14px;
+
+  color: var(--text-secondary);
+
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+
+  overflow: hidden;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
+
+/* =========================================
+   BOTÃO RESERVAR
+========================================= */
 
 .botao-reservar {
-    background-color: var(--gray-01);
-    color: white;
-    height: 36px;
-    width: 196.8px;
-    border: none;
-    border-radius: 10px;
-}
-
-.resultados{
   width: 100%;
-  height: 379px;
-  margin-top: 40px;
-  margin-left: 128px;
-  margin-right: 128px;
+  height: 38px;
+
+  margin-top: auto;
+
+  color: var(--text-white);
+  background-color: var(--button-background);
+
+  border: none;
+  border-radius: 11px;
+
+  font-family: var(--font-primary);
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
 }
 
-.card-resultados{
-  background-color: var(--secondary-black);
-  width: 225px;
-  padding: 6px;
-  height: 275px;
-  border-radius: 16px;
-  border: 1px;
+.botao-reservar:hover {
+  background-color: var(--button-hover);
+}
+
+.botao-reservar:active {
+  transform: scale(0.98);
+}
+
+/* =========================================
+   MENSAGENS DA BUSCA
+========================================= */
+
+.mensagem-busca {
+  width: 100%;
+
+  margin-top: 28px;
+  padding: 24px;
+
+  color: var(--text-secondary);
+  background-color: var(--card-background);
+
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+
+  text-align: center;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.mensagem-busca.erro {
+  color: var(--error);
+  border-color: rgba(255, 84, 84, 0.25);
+}
+
+/* =========================================
+   RESPONSIVIDADE
+========================================= */
+
+@media (max-width: 1050px) {
+  .topo {
+    grid-template-columns: auto 1fr auto;
+    gap: 24px;
+
+    padding: 0 32px;
+  }
+
+  #nomeperfil {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .topo {
+    position: static;
+
+    min-height: auto;
+
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+
+    padding: 15px 20px;
+  }
+
+  .busca-container {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .atalho-agendamentos span {
+    display: none;
+  }
+
+  .pagina-busca {
+    width: calc(100% - 40px);
+    padding-top: 34px;
+  }
+
+  .lista-resultados {
+    grid-template-columns: repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+    gap: 16px;
+  }
+
+  .card-resultados {
+    width: 100%;
+  }
+
+  .imagem-resultado {
+    height: 145px;
+  }
+}
+
+@media (max-width: 500px) {
+  .logo-nome {
+    width: 110px;
+  }
+
+  .pagina-busca {
+    width: calc(100% - 28px);
+  }
+
+  .lista-resultados {
+    grid-template-columns: 1fr;
+  }
+
+  .card-resultados {
+    width: 100%;
+    min-height: auto;
+  }
+
+  .imagem-resultado {
+    height: 190px;
+  }
+
+  #titulo-resultados {
+    font-size: 22px;
+  }
 }
