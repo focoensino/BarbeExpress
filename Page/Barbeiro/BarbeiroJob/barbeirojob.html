@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastrar Barbearia | BarberJob</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="../barbeiro.css" />
+    <link rel="stylesheet" href="./barbeirojob.css" />
+</head>
+<body>
+
+    <header class="topo">
+        <div class="logo">
+            <a id="Tesoura" href="../index.html">
+                <img src="../../../img/logo/Tesoura.svg" alt="Logo" />
+            </a>
+            <a id="BarberExpress" href="../index.html">
+                <img src="../../../img/logo/nomeLogo.svg" alt="BarberExpress" />
+            </a>
+        </div>
+    </header>
+
+    <main class="container-job">
+        <div class="box-cadastro-barbearia">
+            <h2>Cadastre sua Barbearia</h2>
+            <p>Preencha os dados do seu estabelecimento para começar a receber agendamentos.</p>
+
+            <form id="formBarbeariaJob">
+                <div class="campo-input">
+                    <label for="nomeEstabelecimento">Nome do Estabelecimento</label>
+                    <input type="text" id="nomeEstabelecimento" placeholder="Ex: Barbearia Stylus" required />
+                </div>
+
+                <div class="campo-input">
+                    <label for="cnpjOuCpf">CPF ou CNPJ</label>
+                    <input type="text" id="cnpjOuCpf" placeholder="000.000.000-00" required />
+                </div>
+
+                <div class="campo-input">
+                    <label for="endereco">Endereço Completo</label>
+                    <input type="text" id="endereco" placeholder="Rua, Número, Bairro, Cidade" required />
+                </div>
+
+                <div class="campo-input">
+                    <label for="chavePix">Chave PIX (para pagamentos)</label>
+                    <input type="text" id="chavePix" placeholder="E-mail, CPF ou Telefone" required />
+                </div>
+
+                <div class="campo-input">
+                    <label for="horarioAbertura">Horário de Funcionamento</label>
+                    <div class="grid-horarios">
+                        <input type="time" id="horarioAbertura" required />
+                        <span>até</span>
+                        <input type="time" id="horarioFechamento" required />
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-salvar-barbearia">Concluir e Ir ao Painel</button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('formBarbeariaJob').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const dadosBarbearia = {
+                nomeBarbearia: document.getElementById('nomeEstabelecimento').value,
+                documento: document.getElementById('cnpjOuCpf').value,
+                endereco: document.getElementById('endereco').value,
+                pix: document.getElementById('chavePix').value,
+                abertura: document.getElementById('horarioAbertura').value,
+                fechamento: document.getElementById('horarioFechamento').value
+            };
+
+            localStorage.setItem('dadosBarbearia', JSON.stringify(dadosBarbearia));
+            alert('Barbearia configurada com sucesso!');
+
+            // Redireciona para o Painel da Barbearia
+            window.location.href = './painel.html';
+        });
+    </script>
+</body>
+</html>

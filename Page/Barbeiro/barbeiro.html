@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel da Barbearia | BarberExpress</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  />
+
+  <link rel="stylesheet" href="./barbeiro.css" />
+</head>
+<body>
+  <header class="topo">
+    <a class="marca" href="#">
+      <span class="marca-icone">
+        <i class="fa-solid fa-scissors"></i>
+      </span>
+
+      <span class="marca-texto">F5JU BARBER</span>
+    </a>
+
+    <div class="topo-acoes">
+      <button class="botao-icone" type="button" aria-label="Notificações">
+        <i class="fa-regular fa-bell"></i>
+        <span class="notificacao-contador">3</span>
+      </button>
+
+      <button class="perfil" type="button">
+        <span class="perfil-avatar">J</span>
+
+        <span class="perfil-dados">
+          <strong id="nomeProprietario">João Silva</strong>
+          <small id="nomeBarbearia">Barbearia Studio</small>
+        </span>
+
+        <i class="fa-solid fa-chevron-down"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="menu-lateral">
+      <nav class="menu-navegacao">
+        <a class="menu-item ativo" href="#">
+          <i class="fa-solid fa-house"></i>
+          <span>Resumo</span>
+        </a>
+
+        <a class="menu-item" href="#">
+          <i class="fa-regular fa-calendar"></i>
+          <span>Agendamentos</span>
+        </a>
+
+        <a class="menu-item" href="#">
+          <i class="fa-solid fa-user-group"></i>
+          <span>Clientes</span>
+        </a>
+
+        <a class="menu-item" href="#">
+          <i class="fa-solid fa-scissors"></i>
+          <span>Serviços</span>
+        </a>
+
+        <a class="menu-item" href="#">
+          <i class="fa-solid fa-circle-dollar-to-slot"></i>
+          <span>Financeiro</span>
+        </a>
+
+        <a class="menu-item" href="#">
+          <i class="fa-regular fa-star"></i>
+          <span>Avaliações</span>
+        </a>
+
+        <a class="menu-item" href="#">
+          <i class="fa-solid fa-gear"></i>
+          <span>Configurações</span>
+        </a>
+      </nav>
+
+      <div class="plano-card">
+        <div class="plano-titulo">
+          <i class="fa-regular fa-crown"></i>
+          <strong>Plano Premium</strong>
+        </div>
+
+        <p>Aproveite todos os recursos para organizar e crescer.</p>
+
+        <button type="button">Ver planos</button>
+      </div>
+    </aside>
+
+    <main class="conteudo">
+      <section class="cabecalho-pagina">
+        <div>
+          <h1>Olá, João! <span>👋</span></h1>
+          <p>Aqui está o resumo da sua barbearia hoje.</p>
+        </div>
+
+        <button class="botao-principal" id="btnNovoAgendamento" type="button">
+          <i class="fa-solid fa-plus"></i>
+          Novo agendamento
+        </button>
+      </section>
+
+      <section class="metricas">
+        <article class="card-metrica">
+          <span class="icone-metrica azul">
+            <i class="fa-regular fa-calendar"></i>
+          </span>
+
+          <div>
+            <p>Agendamentos hoje</p>
+            <strong id="totalAgendamentos">12</strong>
+            <small class="positivo">+2 em relação a ontem</small>
+          </div>
+        </article>
+
+        <article class="card-metrica">
+          <span class="icone-metrica verde">
+            <i class="fa-solid fa-dollar-sign"></i>
+          </span>
+
+          <div>
+            <p>Faturamento hoje</p>
+            <strong id="faturamentoHoje">R$ 850,00</strong>
+            <small class="positivo">+15% em relação a ontem</small>
+          </div>
+        </article>
+
+        <article class="card-metrica">
+          <span class="icone-metrica roxo">
+            <i class="fa-solid fa-user-plus"></i>
+          </span>
+
+          <div>
+            <p>Clientes novos no mês</p>
+            <strong id="clientesNovos">18</strong>
+            <small class="positivo">+4 este mês</small>
+          </div>
+        </article>
+
+        <article class="card-metrica">
+          <span class="icone-metrica laranja">
+            <i class="fa-regular fa-star"></i>
+          </span>
+
+          <div>
+            <p>Avaliação da barbearia</p>
+            <strong>4,8</strong>
+            <small class="avaliacao-estrelas">★★★★★ <span>(128)</span></small>
+          </div>
+        </article>
+      </section>
+
+      <section class="grade-principal">
+        <article class="painel-card agenda-hoje">
+          <div class="painel-titulo">
+            <h2>Agendamentos de hoje</h2>
+            <button type="button">Ver todos</button>
+          </div>
+
+          <div class="lista-agendamentos" id="listaAgendamentos"></div>
+
+          <button class="link-card" type="button">
+            Ver todos os agendamentos
+          </button>
+        </article>
+
+        <article class="painel-card faturamento">
+          <div class="painel-titulo">
+            <h2>Faturamento da semana</h2>
+            <button type="button">Ver relatório</button>
+          </div>
+
+          <div class="grafico-area">
+            <div class="grafico-linhas">
+              <span>R$ 1.200</span>
+              <span>R$ 900</span>
+              <span>R$ 600</span>
+              <span>R$ 300</span>
+              <span>R$ 0</span>
+            </div>
+
+            <svg
+              class="grafico-svg"
+              viewBox="0 0 700 280"
+              preserveAspectRatio="none"
+              aria-label="Gráfico fictício de faturamento semanal"
+            >
+              <defs>
+                <linearGradient id="areaAzul" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#003cff" stop-opacity="0.38" />
+                  <stop offset="100%" stop-color="#003cff" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+
+              <g class="grade-grafico">
+                <line x1="0" y1="20" x2="700" y2="20" />
+                <line x1="0" y1="80" x2="700" y2="80" />
+                <line x1="0" y1="140" x2="700" y2="140" />
+                <line x1="0" y1="200" x2="700" y2="200" />
+                <line x1="0" y1="260" x2="700" y2="260" />
+              </g>
+
+              <path
+                class="grafico-area-preenchida"
+                d="M 0 205
+                   C 55 160, 90 138, 120 145
+                   S 210 130, 230 146
+                   S 300 192, 350 178
+                   S 430 158, 465 142
+                   S 535 52, 585 72
+                   S 650 125, 700 142
+                   L 700 270
+                   L 0 270 Z"
+              />
+
+              <path
+                class="grafico-linha"
+                d="M 0 205
+                   C 55 160, 90 138, 120 145
+                   S 210 130, 230 146
+                   S 300 192, 350 178
+                   S 430 158, 465 142
+                   S 535 52, 585 72
+                   S 650 125, 700 142"
+              />
+
+              <g class="pontos-grafico">
+                <circle cx="0" cy="205" r="6" />
+                <circle cx="120" cy="145" r="6" />
+                <circle cx="230" cy="146" r="6" />
+                <circle cx="350" cy="178" r="6" />
+                <circle cx="465" cy="142" r="6" />
+                <circle cx="585" cy="72" r="6" />
+                <circle cx="700" cy="142" r="6" />
+              </g>
+            </svg>
+
+            <div class="dias-grafico">
+              <span>Seg</span>
+              <span>Ter</span>
+              <span>Qua</span>
+              <span>Qui</span>
+              <span>Sex</span>
+              <span>Sáb</span>
+              <span>Dom</span>
+            </div>
+          </div>
+
+          <div class="resumo-faturamento">
+            <div>
+              <span>Total da semana</span>
+              <strong>R$ 4.350,00</strong>
+            </div>
+
+            <div>
+              <span>Média por dia</span>
+              <strong>R$ 621,43</strong>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="grade-secundaria">
+        <article class="painel-card">
+          <div class="painel-titulo">
+            <h2>Ações rápidas</h2>
+          </div>
+
+          <div class="acoes-rapidas">
+            <button type="button" data-acao="agendamento">
+              <i class="fa-regular fa-calendar-plus"></i>
+              <span>Novo agendamento</span>
+            </button>
+
+            <button type="button" data-acao="cliente">
+              <i class="fa-solid fa-user-plus"></i>
+              <span>Novo cliente</span>
+            </button>
+
+            <button type="button" data-acao="servico">
+              <i class="fa-solid fa-scissors"></i>
+              <span>Novo serviço</span>
+            </button>
+          </div>
+        </article>
+
+        <article class="painel-card proximo-agendamento">
+          <div class="painel-titulo">
+            <h2>Próximo agendamento</h2>
+          </div>
+
+          <strong class="data-proximo">Amanhã · 30 de julho</strong>
+
+          <div class="proximo-detalhes">
+            <span>
+              <i class="fa-regular fa-clock"></i>
+              09:00
+            </span>
+
+            <div>
+              <strong>Felipe Andrade</strong>
+              <small>Corte + Barba</small>
+            </div>
+          </div>
+
+          <button class="link-card" type="button">Ver todos</button>
+        </article>
+
+        <article class="painel-card avaliacao-card">
+          <div class="painel-titulo">
+            <h2>Avaliação recente</h2>
+          </div>
+
+          <div class="avaliacao-cliente">
+            <span class="avaliacao-avatar">DC</span>
+
+            <div>
+              <strong>Daniel Costa</strong>
+              <div class="avaliacao-estrelas">★★★★★</div>
+            </div>
+          </div>
+
+          <blockquote>
+            “Atendimento excelente e corte impecável!”
+          </blockquote>
+
+          <button class="link-card" type="button">
+            Ver todas as avaliações
+          </button>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal" id="modalAgendamento" aria-hidden="true">
+    <div class="modal-fundo" data-fechar-modal></div>
+
+    <div class="modal-conteudo" role="dialog" aria-modal="true">
+      <div class="modal-cabecalho">
+        <div>
+          <h2>Novo agendamento</h2>
+          <p>Adicione um agendamento fictício à lista.</p>
+        </div>
+
+        <button
+          class="botao-fechar"
+          type="button"
+          data-fechar-modal
+          aria-label="Fechar"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="formNovoAgendamento">
+        <label>
+          Nome do cliente
+          <input
+            id="clienteAgendamento"
+            type="text"
+            placeholder="Ex: Pedro Martins"
+            required
+          />
+        </label>
+
+        <label>
+          Serviço
+          <select id="servicoAgendamento" required>
+            <option value="">Selecione</option>
+            <option>Corte tradicional</option>
+            <option>Corte + Barba</option>
+            <option>Barba</option>
+            <option>Corte degradê</option>
+          </select>
+        </label>
+
+        <div class="modal-grid">
+          <label>
+            Horário
+            <input id="horarioAgendamento" type="time" required />
+          </label>
+
+          <label>
+            Status
+            <select id="statusAgendamento" required>
+              <option value="confirmado">Confirmado</option>
+              <option value="pendente">Pendente</option>
+            </select>
+          </label>
+        </div>
+
+        <button class="botao-principal modal-salvar" type="submit">
+          Salvar agendamento
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="./painel.js"></script>
+</body>
+</html>
