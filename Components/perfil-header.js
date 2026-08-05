@@ -45,32 +45,70 @@ async function verificarLogin() {
     mostrarDeslogado();
   }
 }
+let perfilHeaderIniciado = false;
+let assinaturaAuth = null;
 
 function iniciarPerfilQuandoDisponivel() {
+  if (perfilHeaderIniciado) {
+    return;
+  }
+
   const areaPerfil =
     document.getElementById(
       "area-perfil"
     );
 
+  const cliente =
+    window.supabaseClient;
+
   if (!areaPerfil) {
     return;
   }
 
-  registrarEventos();
+  if (!cliente) {
+    console.error(
+      "supabaseClient não encontrado no perfil-header.js."
+    );
+
+    if (
+      typeof mostrarDeslogado ===
+      "function"
+    ) {
+      mostrarDeslogado();
+    }
+
+    return;
+  }
+
+  perfilHeaderIniciado = true;
+
+  if (
+    typeof registrarEventos ===
+    "function"
+  ) {
+    registrarEventos();
+  }
+
   verificarLogin();
 
-  window.supabaseClient.auth
-    .onAuthStateChange(
+  const { data } =
+    cliente.auth.onAuthStateChange(
       (_evento, session) => {
         setTimeout(() => {
           if (session?.user) {
             verificarLogin();
-          } else {
+          } else if (
+            typeof mostrarDeslogado ===
+            "function"
+          ) {
             mostrarDeslogado();
           }
         }, 0);
       }
     );
+
+  assinaturaAuth =
+    data?.subscription ?? null;
 }
 
 document.addEventListener(
@@ -79,9 +117,15 @@ document.addEventListener(
 );
 
 if (
-  document.getElementById(
-    "area-perfil"
-  )
+  document.readyState === "loading"
 ) {
+  document.addEventListener(
+    "DOMContentLoaded",
+    iniciarPerfilQuandoDisponivel,
+    {
+      once: true
+    }
+  );
+} else {
   iniciarPerfilQuandoDisponivel();
 }

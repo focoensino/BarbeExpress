@@ -4,16 +4,15 @@
   }
 
   const SUPABASE_URL =
-    "https://cfqvfiquhtzzzfuubltf.supabase.co";
+     "https://cfqvfiquhtzzzfuubltf.supabase.co";
 
   const SUPABASE_KEY =
-    "sb_publishable_q1Ckt9CnEi7cJSzFsHPjug_TLc2kWwX";
+   'sb_publishable_q1Ckt9CnEi7cJSzFsHPjug_TLc2kWwX'
 
   if (!window.supabase?.createClient) {
     console.error(
       "A biblioteca do Supabase não foi carregada."
     );
-
     return;
   }
 
@@ -26,12 +25,14 @@
           persistSession: true,
           autoRefreshToken: true,
           detectSessionInUrl: true,
-          storage: window.localStorage
+          storage: window.localStorage,
+          storageKey:
+            "barberexpress-auth-token"
         }
       }
     );
 
   console.log(
-    "Supabase inicializado com sessão persistente."
+    "Supabase inicializado uma única vez."
   );
 })();

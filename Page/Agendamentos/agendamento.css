@@ -226,8 +226,10 @@ button {
 }
 
 .icone-agenda {
-  width: 20px;
-  height: 20px;
+  width: 21px;
+  height: 21px;
+
+  object-fit: contain;
 }
 
 .div-perfil h4 {
@@ -252,10 +254,14 @@ button {
 }
 
 #foto-do-perfil {
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
 
   border-radius: 50%;
+  object-fit: cover;
+
+  background-color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.15);
 }
 
 #nome-do-perfil {

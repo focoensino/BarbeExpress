@@ -34,17 +34,33 @@
   </div>
 </div>
 
-    <div class="div-perfil">
-   
+   <div class="div-perfil">
+  <a href="./agendamentos.html">
+    <img
+      src="../../img/icon/agenda.svg"
+      class="icone-agenda"
+      alt="Ícone Agenda"
+    />
+  </a>
 
-    <a href="page.html"><img  src="../../img/icon/agenda.svg" class="icone-agenda" alt="Ícone Agenda" /></a>
-       <a id="agendamentotopo" href="./agendamentos.html"><h4>Agendamentos</h4></a>
-      <div class="perfil">
+  <a
+    id="agendamentotopo"
+    href="./agendamentos.html"
+  >
+    <h4>Agendamentos</h4>
+  </a>
 
-        <img src="../../img/logo/perfil.svg" id="foto-do-perfil">
-        <h2 id="nome-do-perfil">Roberto Alvez</h2>
+<div class="perfil">
+  <span
+    id="foto-do-perfil"
+    class="avatar-header"
+  ></span>
 
-      </div>
+  <h2 id="nome-do-perfil">
+    Carregando...
+  </h2>
+</div>
+</div>
 
     </div>
   </header>
@@ -212,7 +228,11 @@
     </aside>
 
   </main>
-  <script src="./script.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../../supabase-client.js"></script>
+<script src="./agendamento.js"></script>
+
 </body>
 
 </html>

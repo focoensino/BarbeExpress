@@ -3,7 +3,7 @@
     "https://cfqvfiquhtzzzfuubltf.supabase.co";
 
   const SUPABASE_KEY =
-    "sb_publishable_q1Ckt9CnEi7cJSzFsHPjug_TLc2kWwX";
+    'sb_publishable_q1Ckt9CnEi7cJSzFsHPjug_TLc2kWwX';
 
   let clienteSupabase = null;
   let inscricaoAuth = null;
@@ -13,10 +13,7 @@
       return clienteSupabase;
     }
 
-    /*
-     * Aproveita o cliente criado pelo seed.js,
-     * caso ele já exista.
-     */
+   
     try {
       if (
         typeof supabaseClient !== "undefined" &&
