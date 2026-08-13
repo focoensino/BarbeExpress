@@ -654,3 +654,54 @@ button {
   }
 
 }
+
+.sem-agendamento {
+  color: #777;
+  font-size: 14px;
+  padding: 12px 0;
+  font-style: italic;
+}
+
+/* Esconde a sidebar quando não há dados */
+.info-card.oculto {
+  display: none !important;
+}
+
+/* Estado vazio (Empty State) para agendamentos */
+.sem-agendamento-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  
+  width: 100%;
+  padding: 30px 20px;
+  
+  background-color: var(--secondary-black);
+  border: 1px dashed var(--gray-02);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.sem-agendamento-card p {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-14);
+  color: var(--gray-03);
+}
+
+.sem-agendamento-card .btn-buscar {
+  padding: 8px 16px;
+  background-color: var(--primary-purple);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-size: var(--font-size-14);
+  font-weight: var(--font-semi-bold);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.sem-agendamento-card .btn-buscar:hover {
+  opacity: 0.9;
+}

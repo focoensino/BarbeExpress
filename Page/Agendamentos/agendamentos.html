@@ -1,238 +1,157 @@
 <!doctype html>
 <html lang="pt-BR">
 
-
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BarberExpress</title>
+  <title>BarberExpress - Agendamentos</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200..1000&family=Sora:wght@100..800&display=swap"
-    rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Sora:wght@100..800&display=swap"
-    rel="stylesheet">
+    rel="stylesheet"
+  />
   <link rel="stylesheet" href="agendamento.css" />
 </head>
 
 <body>
+  <!-- HEADER -->
   <header class="topo">
-  
-  <a href="../../index.html" class="logo">
-  <img src="../../img/logo/Tesoura.svg" alt="Logo Tesoura" />
-  <img src="../../img/logo/nomeLogo.svg"  alt="BarberExpress" />
-</a>
-  <div class="pesquisa">
-  <input type="text" class="PesqBarb" placeholder="Buscar Barbearias">
-  <div class="divPesq">
-    <img src="../../img/icon/lupa.svg" class="imgLup">
-  </div>
-</div>
+    <a href="../../index.html" class="logo">
+      <img src="../../img/logo/Tesoura.svg" alt="Logo Tesoura" />
+      <img src="../../img/logo/nomeLogo.svg" alt="BarberExpress" />
+    </a>
 
-   <div class="div-perfil">
-  <a href="./agendamentos.html">
-    <img
-      src="../../img/icon/agenda.svg"
-      class="icone-agenda"
-      alt="Ícone Agenda"
-    />
-  </a>
+    <div class="pesquisa">
+      <input type="text" class="PesqBarb" placeholder="Buscar Barbearias" />
+      <div class="divPesq">
+        <img src="../../img/icon/lupa.svg" class="imgLup" alt="Pesquisar" />
+      </div>
+    </div>
 
-  <a
-    id="agendamentotopo"
-    href="./agendamentos.html"
-  >
-    <h4>Agendamentos</h4>
-  </a>
+    <div class="div-perfil">
+      <a href="./agendamentos.html">
+        <img src="../../img/icon/agenda.svg" class="icone-agenda" alt="Ícone Agenda" />
+      </a>
 
-<div class="perfil">
-  <span
-    id="foto-do-perfil"
-    class="avatar-header"
-  ></span>
+      <a id="agendamentotopo" href="./agendamentos.html">
+        <h4>Agendamentos</h4>
+      </a>
 
-  <h2 id="nome-do-perfil">
-    Carregando...
-  </h2>
-</div>
-</div>
-
+      <div class="perfil">
+        <span id="foto-do-perfil" class="avatar-header"></span>
+        <h2 id="nome-do-perfil">Carregando...</h2>
+      </div>
     </div>
   </header>
 
+  <!-- MODAL CANCELAMENTO -->
   <div class="modal-cancelar-agendamento">
-<div class="modal-Texto"> 
-  <h2> Cancelar agendamento</h2>
-  <p>Tem certeza que deseja cancelar o agendamento?</p>
-</div>
+    <div class="modal-Texto">
+      <h2>Cancelar agendamento</h2>
+      <p>Tem certeza que deseja cancelar o agendamento?</p>
+    </div>
 
     <div class="botoes">
-
       <button class="fechar-modal">Voltar</button>
       <button class="cancelar-agendamento">Confirma</button>
     </div>
-
   </div>
 
+  <!-- CONTEÚDO PRINCIPAL -->
   <main class="centro">
+    <!-- CONTAINER DE LISTAGEM DE AGENDAMENTOS -->
     <section class="agendamentos-container">
       <div class="agendamentos">
         <h1>Agendamentos</h1>
 
         <div class="grupo">
-          <h2>CONFIRMADOS </h2>
-
-          <article class="card-agendamento">
-            <div class="lado-esquerdo">
-              <span class="status confirmado">Confirmado</span>
-              <h3>Corte de cabelo</h3>
-
-              <div class="barbearia-mini">
-                <img src="../../img/logo/imagem7.svg" alt="Vintage Barber" />
-                <span>Vintage Barber</span>
-              </div>
-            </div>
-
-            <div class="lado-direito">
-              <span>Fevereiro</span>
-              <h2>06</h2>
-              <span>09:45</span>
-            </div>
-          </article>
+          <h2>CONFIRMADOS</h2>
+          <!-- JS injetará os cards confirmados aqui -->
+          <div id="container-confirmados"></div>
         </div>
       </div>
 
       <div class="grupo finalizados">
         <h2>FINALIZADOS</h2>
-
-        <article class="card-agendamento">
-          <div class="lado-esquerdo">
-            <span class="status finalizado">Finalizado</span>
-            <h3>Corte de Cabelo</h3>
-            <div class="barbearia-mini">
-              <img src="../../img/logo/imagem7.svg" alt="Vintage Barber" />
-              <span>Vintage Barber</span>
-            </div>
-          </div>
-
-          <div class="lado-direito">
-            <span>Janeiro</span>
-            <h2>22</h2>
-            <span>09:00</span>
-          </div>
-        </article>
-
-        <article class="card-agendamento">
-          <div class="lado-esquerdo">
-            <span class="status finalizado">Finalizado</span>
-            <h3>Corte de Cabelo</h3>
-            <div class="barbearia-mini">
-              <img src="../../img/logo/imagem7.svg" alt="Vintage Barber" />
-              <span>Vintage Barber</span>
-            </div>
-          </div>
-
-          <div class="lado-direito">
-            <span>Janeiro</span>
-            <h2>07</h2>
-            <span>12:40</span>
-          </div>
-        </article>
-
-        <article class="card-agendamento">
-          <div class="lado-esquerdo">
-            <span class="status finalizado">Finalizado</span>
-            <h3>Corte de Cabelo</h3>
-            <div class="barbearia-mini">
-              <img src="../../img/logo/imagem7.svg" alt="Vintage Barber" />
-              <span>Vintage Barber</span>
-            </div>
-          </div>
-
-          <div class="lado-direito">
-            <span>Dezembro</span>
-            <h2>23</h2>
-            <span>19:10</span>
-          </div>
-        </article>
+        <!-- JS injetará os cards finalizados aqui -->
+        <div id="container-finalizados"></div>
       </div>
     </section>
 
-    <aside class="info-card">
-      <img class="banner" src="../../img/Mapa/MapaBarbeariaEX.png" alt="Mapa da barbearia" />
+    <!-- SIDEBAR DE DETALHES DA BARBEARIA -->
+    <aside class="info-card" id="info-barbearia">
+      <img class="banner" id="barbearia-mapa" src="" alt="Mapa da barbearia" />
 
       <div class="info-conteudo">
         <div class="cabecalho">
-          <img src="../../img/logo/imagem7.svg" alt="Vintage Barber" />
+          <img id="barbearia-logo" src="" alt="Logo Barbearia" />
 
           <div class="dados">
-            <h3>Vintage Barber</h3>
-            <p>Avenida São Sebastião, 357, São Paulo</p>
+            <h3 id="barbearia-nome">Carregando...</h3>
+            <p id="barbearia-endereco">...</p>
           </div>
         </div>
 
         <div class="info-conteudo">
           <h4>SOBRE NÓS</h4>
-          <p class="descricao">
-            Bem-vindo à Vintage Barber, onde tradição encontra estilo.
-            Nossa equipe transforma cortes de cabelo e barba em obras de arte.
-          </p>
+          <p class="descricao" id="barbearia-sobre">...</p>
         </div>
 
         <div class="telefone">
-          <img src="../../img/icon/telefone.svg" alt="">
-          <span>(11) 98204-5108</span>
-        <button class="btn-copiar">Copiar</button>
+          <img src="../../img/icon/telefone.svg" alt="Telefone" />
+          <span id="barbearia-tel1">...</span>
+          <button class="btn-copiar">Copiar</button>
         </div>
 
         <div class="telefone">
-          <img src="../../img/icon/telefone.svg" alt="">
-          <span>(11) 99503-2351</span>
-     <button class="btn-copiar">Copiar</button>
+          <img src="../../img/icon/telefone.svg" alt="Telefone" />
+          <span id="barbearia-tel2">...</span>
+          <button class="btn-copiar">Copiar</button>
         </div>
 
-        <div class="reserva">
+        <!-- QUADRO DE RESUMO DO PRÓXIMO AGENDAMENTO -->
+        <div class="reserva" id="card-reserva" style="display: none;">
           <span class="status confirmado">Confirmado</span>
 
           <div class="quadradoFres">
             <div class="linha">
-              <span>Corte de Cabelo</span>
-              <strong>R$50,00</strong>
+              <span>Serviço</span>
+              <strong id="reserva-servico">-</strong>
+            </div>
+
+            <div class="linha">
+              <span>Preço</span>
+              <strong id="reserva-preco">-</strong>
             </div>
 
             <div class="linha">
               <span>Data</span>
-              <strong>22 de Julho</strong>
+              <strong id="reserva-data">-</strong>
             </div>
 
             <div class="linha">
               <span>Horário</span>
-              <strong>09:45</strong>
+              <strong id="reserva-horario">-</strong>
             </div>
 
             <div class="linha">
               <span>Barbearia</span>
-              <strong>Vintage Barber</strong>
+              <strong id="reserva-barbearia">-</strong>
             </div>
           </div>
+
+          <button class="cancelar" id="btn-cancelar-reserva">Cancelar Reserva</button>
         </div>
-
-        <button class="cancelar">Cancelar Reserva</button>
       </div>
-
     </aside>
-
   </main>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="../../supabase-client.js"></script>
-<script src="./agendamento.js"></script>
-
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../../supabase-client.js"></script>
+  <script src="./agendamento.js"></script>
 </body>
 
 </html>

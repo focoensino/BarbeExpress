@@ -26,27 +26,14 @@ botaoFechar.addEventListener('click', () => {
 // ======================================================
 
 async function carregarHeaderUsuario() {
-  const nomePerfil =
-    document.getElementById("nomeperfil");
+  const supabase = obterSupabase(); // Obtém a instância corretamente
+  const nomePerfil = document.getElementById("nomeperfil");
+  const menuNome = document.getElementById("menu-nome-header");
+  const menuEmail = document.getElementById("menu-email-header");
+  const fotoPerfil = document.getElementById("foto-perfil-header");
+  const botaoAgendamentos = document.getElementById("btn-agendamentos-header");
 
-  const menuNome =
-    document.getElementById("menu-nome-header");
-
-  const menuEmail =
-    document.getElementById("menu-email-header");
-
-  const fotoPerfil =
-    document.getElementById("foto-perfil-header");
-
-  const botaoPerfil =
-    document.getElementById("botao-perfil-header");
-
-  const botaoAgendamentos =
-    document.getElementById("btn-agendamentos-header");
-
-  if (!nomePerfil || !botaoPerfil) {
-    return;
-  }
+  if (!supabase || !nomePerfil) return;
 
   try {
     const {
