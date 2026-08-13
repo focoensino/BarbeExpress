@@ -6,47 +6,92 @@ const btnPrev = document.getElementById('btn-prev');
 const btnNext = document.getElementById('btn-next');
 
 const mesesDoAno = [
-  "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-  "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+  "Janeiro",
+  "Fevereiro",
+  "Março",
+  "Abril",
+  "Maio",
+  "Junho",
+  "Julho",
+  "Agosto",
+  "Setembro",
+  "Outubro",
+  "Novembro",
+  "Dezembro"
 ];
 
-let dataAtual = new Date(); 
-const dataHojeImutavel = new Date(); 
+let dataAtual = new Date();
+const dataHojeImutavel = new Date();
+
+let horarioSelecionado = null;
+
+
+// ======================================================
+// ABRIR / FECHAR RESERVA
+// ======================================================
 
 function Reservar() {
+  if (!containerReserva) return;
+
   containerReserva.classList.add('ativo');
   renderizarCalendario();
 }
 
-botaoFechar.addEventListener('click', () => {
-  containerReserva.classList.remove('ativo');
+botaoFechar?.addEventListener('click', () => {
+  containerReserva?.classList.remove('ativo');
 });
+
+
 // ======================================================
 // HEADER DO USUÁRIO
 // ======================================================
 
 async function carregarHeaderUsuario() {
-  const supabase = obterSupabase(); // Obtém a instância corretamente
-  const nomePerfil = document.getElementById("nomeperfil");
-  const menuNome = document.getElementById("menu-nome-header");
-  const menuEmail = document.getElementById("menu-email-header");
-  const fotoPerfil = document.getElementById("foto-perfil-header");
-  const botaoAgendamentos = document.getElementById("btn-agendamentos-header");
+
+  const supabase =
+    window.supabaseClient ||
+    (typeof obterSupabase === "function"
+      ? obterSupabase()
+      : null);
+
+  const nomePerfil =
+    document.getElementById("nomeperfil");
+
+  const menuNome =
+    document.getElementById("menu-nome-header");
+
+  const menuEmail =
+    document.getElementById("menu-email-header");
+
+  const fotoPerfil =
+    document.getElementById("foto-perfil-header");
+
+  const botaoAgendamentos =
+    document.getElementById("btn-agendamentos-header");
 
   if (!supabase || !nomePerfil) return;
 
   try {
+
+    // ==================================================
+    // USUÁRIO LOGADO
+    // ==================================================
+
     const {
       data: { user },
       error
-    } = await supabaseClient.auth.getUser();
+    } = await supabase.auth.getUser();
 
     if (error) {
       throw error;
     }
 
-    // Usuário não está logado
+    // ==================================================
+    // USUÁRIO NÃO LOGADO
+    // ==================================================
+
     if (!user) {
+
       nomePerfil.textContent = "Entrar";
 
       if (menuNome) {
@@ -64,17 +109,22 @@ async function carregarHeaderUsuario() {
       return;
     }
 
-    // Busca o perfil salvo na tabela usuarios
-    const { data: perfil, error: perfilError } =
-      await supabaseClient
-        .from("usuarios")
-        .select("nome, email, foto_perfil")
-        .eq("id", user.id)
-        .maybeSingle();
+    // ==================================================
+    // BUSCAR PERFIL
+    // ==================================================
+
+    const {
+      data: perfil,
+      error: perfilError
+    } = await supabase
+      .from("usuarios")
+      .select("nome, email, foto_perfil")
+      .eq("id", user.id)
+      .maybeSingle();
 
     if (perfilError) {
       console.error(
-        "Erro ao buscar perfil:",
+        "❌ Erro ao buscar perfil:",
         perfilError
       );
     }
@@ -90,38 +140,54 @@ async function carregarHeaderUsuario() {
       user.email ||
       "";
 
-    nomePerfil.textContent = nomeUsuario;
+    nomePerfil.textContent =
+      nomeUsuario;
 
     if (menuNome) {
-      menuNome.textContent = nomeUsuario;
+      menuNome.textContent =
+        nomeUsuario;
     }
 
     if (menuEmail) {
-      menuEmail.textContent = emailUsuario;
+      menuEmail.textContent =
+        emailUsuario;
     }
 
     if (perfil?.foto_perfil && fotoPerfil) {
-      fotoPerfil.src = perfil.foto_perfil;
+
+      fotoPerfil.src =
+        perfil.foto_perfil;
+
+      fotoPerfil.onerror = () => {
+        fotoPerfil.src =
+          "../../img/logo/imagem7.svg";
+      };
     }
 
     if (botaoAgendamentos) {
-      botaoAgendamentos.style.display = "flex";
+      botaoAgendamentos.style.display =
+        "flex";
     }
+
   } catch (error) {
+
     console.error(
-      "Erro ao carregar usuário no header:",
+      "❌ Erro ao carregar usuário no header:",
       error
     );
 
-    nomePerfil.textContent = "Entrar";
+    nomePerfil.textContent =
+      "Entrar";
   }
 }
-  
+
+
 // ======================================================
 // EVENTOS DO HEADER
 // ======================================================
 
 function iniciarEventosHeader() {
+
   const botaoAgendamentos =
     document.getElementById(
       "btn-agendamentos-header"
@@ -142,50 +208,94 @@ function iniciarEventosHeader() {
       "btn-sair-header"
     );
 
+
+  // ====================================================
+  // AGENDAMENTOS
+  // ====================================================
+
   botaoAgendamentos?.addEventListener(
     "click",
     () => {
+
       window.location.href =
         "/Page/Agendamentos/agendamentos.html";
+
     }
   );
+
+
+  // ====================================================
+  // PERFIL
+  // ====================================================
 
   botaoPerfil?.addEventListener(
     "click",
     async (event) => {
+
       event.stopPropagation();
+
+      const supabase =
+        window.supabaseClient ||
+        (typeof obterSupabase === "function"
+          ? obterSupabase()
+          : null);
+
+      if (!supabase) return;
 
       const {
         data: { user }
-      } = await supabaseClient.auth.getUser();
+      } = await supabase.auth.getUser();
 
-      // Caso não esteja logado, volta para a página de login
       if (!user) {
-        window.location.href = "/index.html";
+
+        window.location.href =
+          "/index.html";
+
         return;
       }
 
       if (menu) {
-        menu.hidden = !menu.hidden;
+
+        menu.hidden =
+          !menu.hidden;
       }
     }
   );
 
+
+  // ====================================================
+  // SAIR
+  // ====================================================
+
   botaoSair?.addEventListener(
     "click",
     async () => {
+
+      const supabase =
+        window.supabaseClient ||
+        (typeof obterSupabase === "function"
+          ? obterSupabase()
+          : null);
+
+      if (!supabase) return;
+
       try {
-        const { error } =
-          await supabaseClient.auth.signOut();
+
+        const {
+          error
+        } = await supabase.auth.signOut();
 
         if (error) {
           throw error;
         }
 
-        window.location.href = "/index.html";
+        window.location.href =
+          "/index.html";
+
       } catch (error) {
+
         console.error(
-          "Erro ao sair:",
+          "❌ Erro ao sair:",
           error
         );
 
@@ -196,15 +306,22 @@ function iniciarEventosHeader() {
     }
   );
 
+
+  // ====================================================
+  // FECHAR MENU CLICANDO FORA
+  // ====================================================
+
   document.addEventListener(
     "click",
     (event) => {
+
       if (
         menu &&
         botaoPerfil &&
         !menu.contains(event.target) &&
         !botaoPerfil.contains(event.target)
       ) {
+
         menu.hidden = true;
       }
     }
@@ -219,198 +336,449 @@ function iniciarEventosHeader() {
 document.addEventListener(
   "DOMContentLoaded",
   async () => {
+
     iniciarEventosHeader();
+
     await carregarHeaderUsuario();
+
   }
 );
 
 
-// Atualiza o header automaticamente após login ou logout
-supabaseClient.auth.onAuthStateChange(
-  () => {
-    setTimeout(() => {
-      carregarHeaderUsuario();
-    }, 0);
-  }
-);
+// ======================================================
+// ATUALIZAR HEADER APÓS LOGIN / LOGOUT
+// ======================================================
+
+const supabaseAtual =
+  window.supabaseClient ||
+  (typeof obterSupabase === "function"
+    ? obterSupabase()
+    : null);
+
+if (supabaseAtual) {
+
+  supabaseAtual.auth.onAuthStateChange(
+    () => {
+
+      setTimeout(() => {
+
+        carregarHeaderUsuario();
+
+      }, 0);
+
+    }
+  );
+}
+
+
+// ======================================================
+// CALENDÁRIO
+// ======================================================
 
 function renderizarCalendario() {
-  const ano = dataAtual.getFullYear();
-  const mes = dataAtual.getMonth();
 
-  mesAnoTexto.textContent = `${mesesDoAno[mes]} ${ano}`;
+  if (
+    !mesAnoTexto ||
+    !containerDias ||
+    !btnPrev ||
+    !btnNext
+  ) {
+    return;
+  }
 
-  const primeiroDiaDaSemana = new Date(ano, mes, 1).getDay();
+  const ano =
+    dataAtual.getFullYear();
 
-  const ultimoDiaDoMes = new Date(ano, mes + 1, 0).getDate();
+  const mes =
+    dataAtual.getMonth();
+
+  mesAnoTexto.textContent =
+    `${mesesDoAno[mes]} ${ano}`;
+
+  const primeiroDiaDaSemana =
+    new Date(
+      ano,
+      mes,
+      1
+    ).getDay();
+
+  const ultimoDiaDoMes =
+    new Date(
+      ano,
+      mes + 1,
+      0
+    ).getDate();
 
   containerDias.innerHTML = "";
 
-  if (ano === dataHojeImutavel.getFullYear() && mes === dataHojeImutavel.getMonth()) {
+  // ====================================================
+  // BOTÃO ANTERIOR
+  // ====================================================
+
+  if (
+    ano === dataHojeImutavel.getFullYear() &&
+    mes === dataHojeImutavel.getMonth()
+  ) {
+
     btnPrev.disabled = true;
     btnPrev.style.opacity = "0.3";
     btnPrev.style.cursor = "not-allowed";
+
   } else {
+
     btnPrev.disabled = false;
     btnPrev.style.opacity = "1";
     btnPrev.style.cursor = "pointer";
   }
 
-  for (let i = 0; i < primeiroDiaDaSemana; i++) {
-    const spanVazio = document.createElement('span');
-    containerDias.appendChild(spanVazio);
+
+  // ====================================================
+  // ESPAÇOS ANTES DO PRIMEIRO DIA
+  // ====================================================
+
+  for (
+    let i = 0;
+    i < primeiroDiaDaSemana;
+    i++
+  ) {
+
+    const spanVazio =
+      document.createElement("span");
+
+    containerDias.appendChild(
+      spanVazio
+    );
   }
 
-  for (let dia = 1; dia <= ultimoDiaDoMes; dia++) {
-    const spanDia = document.createElement('span');
-    spanDia.textContent = dia;
 
-    const dataVerificacao = new Date(ano, mes, dia);
+  // ====================================================
+  // DIAS DO MÊS
+  // ====================================================
 
-    dataVerificacao.setHours(0,0,0,0);
-    const hojeComparacao = new Date(dataHojeImutavel.getFullYear(), dataHojeImutavel.getMonth(), dataHojeImutavel.getDate());
+  for (
+    let dia = 1;
+    dia <= ultimoDiaDoMes;
+    dia++
+  ) {
+
+    const spanDia =
+      document.createElement("span");
+
+    spanDia.textContent =
+      dia;
 
 
-    if (dataVerificacao < hojeComparacao) {
-      spanDia.classList.add('dia-clicavel', 'desabilitado');
+    const dataVerificacao =
+      new Date(
+        ano,
+        mes,
+        dia
+      );
+
+    const diaDaSemana =
+      dataVerificacao.getDay();
+
+    dataVerificacao.setHours(
+      0,
+      0,
+      0,
+      0
+    );
+
+
+    const hojeComparacao =
+      new Date(
+        dataHojeImutavel.getFullYear(),
+        dataHojeImutavel.getMonth(),
+        dataHojeImutavel.getDate()
+      );
+
+
+    // ==================================================
+    // DIAS DESABILITADOS
+    // ==================================================
+
+    if (
+      dataVerificacao < hojeComparacao ||
+      diaDaSemana === 0
+    ) {
+
+      spanDia.classList.add(
+        "dia-clicavel",
+        "desabilitado"
+      );
+
     } else {
-      spanDia.classList.add('dia-clicavel');
 
-      if (dataVerificacao.getTime() === hojeComparacao.getTime()) {
-        spanDia.classList.add('hoje');
+      spanDia.classList.add(
+        "dia-clicavel"
+      );
+
+
+      // ================================================
+      // HOJE
+      // ================================================
+
+      if (
+        dataVerificacao.getTime() ===
+        hojeComparacao.getTime()
+      ) {
+
+        spanDia.classList.add(
+          "hoje"
+        );
       }
 
-      spanDia.addEventListener('click', () => {
-        document.querySelector('.dia-clicavel.selecionado')?.classList.remove('selecionado');
-        
-        if (dataVerificacao.getTime() !== hojeComparacao.getTime()) {
-          spanDia.classList.add('selecionado');
-        }
 
-        console.log(`Dia selecionado para o agendamento: ${dia}/${mes + 1}/${ano}`);
-      });
+      // ================================================
+      // SELECIONAR DIA
+      // ================================================
+
+      spanDia.addEventListener(
+        "click",
+        () => {
+
+          document
+            .querySelector(
+              ".dia-clicavel.selecionado"
+            )
+            ?.classList.remove(
+              "selecionado"
+            );
+
+
+          // Hoje não pode ser selecionado
+          if (
+            dataVerificacao.getTime() !==
+            hojeComparacao.getTime()
+          ) {
+
+            spanDia.classList.add(
+              "selecionado"
+            );
+
+            gerarHorariosDisponiveis(
+              diaDaSemana
+            );
+
+          } else {
+
+            wrapperHorarios.style.display =
+              "none";
+
+            horarioSelecionado =
+              null;
+          }
+
+
+          console.log(
+            `Dia selecionado: ${dia}/${mes + 1}/${ano}`
+          );
+
+        }
+      );
     }
 
-    containerDias.appendChild(spanDia);
+    containerDias.appendChild(
+      spanDia
+    );
   }
 }
 
-btnPrev.addEventListener('click', () => {
-  if (dataAtual.getFullYear() > dataHojeImutavel.getFullYear() || dataAtual.getMonth() > dataHojeImutavel.getMonth()) {
-    dataAtual.setMonth(dataAtual.getMonth() - 1);
+
+// ======================================================
+// NAVEGAÇÃO DO CALENDÁRIO
+// ======================================================
+
+btnPrev?.addEventListener(
+  "click",
+  () => {
+
+    if (
+      dataAtual.getFullYear() >
+        dataHojeImutavel.getFullYear() ||
+
+      (
+        dataAtual.getFullYear() ===
+          dataHojeImutavel.getFullYear() &&
+
+        dataAtual.getMonth() >
+          dataHojeImutavel.getMonth()
+      )
+    ) {
+
+      dataAtual.setMonth(
+        dataAtual.getMonth() - 1
+      );
+
+      renderizarCalendario();
+    }
+  }
+);
+
+
+btnNext?.addEventListener(
+  "click",
+  () => {
+
+    dataAtual.setMonth(
+      dataAtual.getMonth() + 1
+    );
+
     renderizarCalendario();
   }
-});
+);
 
-btnNext.addEventListener('click', () => {
-  dataAtual.setMonth(dataAtual.getMonth() + 1);
-  renderizarCalendario();
-});
 
-const wrapperHorarios = document.getElementById('wrapper-horarios');
-const containerListaHorarios = document.getElementById('container-lista-horarios');
+// ======================================================
+// HORÁRIOS
+// ======================================================
 
-let horarioSelecionado = null;
+const wrapperHorarios =
+  document.getElementById(
+    "wrapper-horarios"
+  );
 
-function renderizarCalendario() {
-  const ano = dataAtual.getFullYear();
-  const mes = dataAtual.getMonth();
+const containerListaHorarios =
+  document.getElementById(
+    "container-lista-horarios"
+  );
 
-  mesAnoTexto.textContent = `${mesesDoAno[mes]} ${ano}`;
 
-  const primeiroDiaDaSemana = new Date(ano, mes, 1).getDay();
-  const ultimoDiaDoMes = new Date(ano, mes + 1, 0).getDate();
+// ======================================================
+// GERAR HORÁRIOS
+// ======================================================
 
-  containerDias.innerHTML = "";
+function gerarHorariosDisponiveis(
+  diaDaSemana
+) {
 
-  wrapperHorarios.style.display = "none";
-
-  if (ano === dataHojeImutavel.getFullYear() && mes === dataHojeImutavel.getMonth()) {
-    btnPrev.disabled = true;
-    btnPrev.style.opacity = "0.3";
-    btnPrev.style.cursor = "not-allowed";
-  } else {
-    btnPrev.disabled = false;
-    btnPrev.style.opacity = "1";
-    btnPrev.style.cursor = "pointer";
+  if (
+    !containerListaHorarios ||
+    !wrapperHorarios
+  ) {
+    return;
   }
 
-  for (let i = 0; i < primeiroDiaDaSemana; i++) {
-    const spanVazio = document.createElement('span');
-    containerDias.appendChild(spanVazio);
-  }
+  containerListaHorarios.innerHTML =
+    "";
 
-  for (let dia = 1; dia <= ultimoDiaDoMes; dia++) {
-    const spanDia = document.createElement('span');
-    spanDia.textContent = dia;
+  wrapperHorarios.style.display =
+    "block";
 
-    const dataVerificacao = new Date(ano, mes, dia);
-    const diaDaSemana = dataVerificacao.getDay();
+  horarioSelecionado =
+    null;
 
-    dataVerificacao.setHours(0,0,0,0);
-    const hojeComparacao = new Date(dataHojeImutavel.getFullYear(), dataHojeImutavel.getMonth(), dataHojeImutavel.getDate());
 
-    if (dataVerificacao < hojeComparacao || diaDaSemana === 0) {
-      spanDia.classList.add('dia-clicavel', 'desabilitado');
-    } else {
-      spanDia.classList.add('dia-clicavel');
+  let horaInicio;
+  let horaFim;
 
-      if (dataVerificacao.getTime() === hojeComparacao.getTime()) {
-        spanDia.classList.add('hoje');
-      }
 
-      spanDia.addEventListener('click', () => {
-        document.querySelector('.dia-clicavel.selecionado')?.classList.remove('selecionado');
-        
-        if (dataVerificacao.getTime() !== hojeComparacao.getTime()) {
-          spanDia.classList.add('selecionado');
-        }
+  // Sábado
+  if (
+    diaDaSemana === 6
+  ) {
 
-        gerarHorariosDisponiveis(diaDaSemana);
-        console.log(`Dia selecionado: ${dia}/${mes + 1}/${ano} (Dia da semana: ${diaDaSemana})`);
-      });
-    }
-
-    containerDias.appendChild(spanDia);
-  }
-}
-
-function gerarHorariosDisponiveis(diaDaSemana) {
-  containerListaHorarios.innerHTML = ""; 
-  wrapperHorarios.style.display = "block"; 
-
-  let horaInicio, horaFim;
-
-  if (diaDaSemana === 6) {
     horaInicio = 8;
     horaFim = 17;
-  } 
-  else {
+
+  } else {
+
     horaInicio = 9;
     horaFim = 21;
   }
 
-  for (let hora = horaInicio; hora < horaFim; hora++) {
-    for (let minutos = 0; minutos < 60; minutos += 45) {
-      
-      if (hora === horaFim - 1 && minutos > 0 && diaDaSemana === 6) continue;
 
-      const textoHora = String(hora).padStart(2, '0');
-      const textoMinutos = String(minutos).padStart(2, '0');
-      const horarioFormatado = `${textoHora}:${textoMinutos}`;
+  // ====================================================
+  // CRIAR HORÁRIOS
+  // ====================================================
 
-      const botaoHorario = document.createElement('button');
-      botaoHorario.classList.add('btn-horario');
-      botaoHorario.textContent = horarioFormatado;
+  for (
+    let hora = horaInicio;
+    hora < horaFim;
+    hora++
+  ) {
 
-      botaoHorario.addEventListener('click', () => {
-        document.querySelector('.btn-horario.selecionado')?.classList.remove('selecionado');
-        botaoHorario.classList.add('selecionado');
-        horarioSelecionado = horarioFormatado;
-        console.log(`Horário selecionado: ${horarioSelecionado}`);
-      });
+    for (
+      let minutos = 0;
+      minutos < 60;
+      minutos += 45
+    ) {
 
-      containerListaHorarios.appendChild(botaoHorario);
+      // No sábado não cria horários após 16:00
+      if (
+        hora === horaFim - 1 &&
+        minutos > 0 &&
+        diaDaSemana === 6
+      ) {
+        continue;
+      }
+
+
+      const textoHora =
+        String(hora).padStart(
+          2,
+          "0"
+        );
+
+      const textoMinutos =
+        String(minutos).padStart(
+          2,
+          "0"
+        );
+
+      const horarioFormatado =
+        `${textoHora}:${textoMinutos}`;
+
+
+      const botaoHorario =
+        document.createElement(
+          "button"
+        );
+
+      botaoHorario.type =
+        "button";
+
+      botaoHorario.classList.add(
+        "btn-horario"
+      );
+
+      botaoHorario.textContent =
+        horarioFormatado;
+
+
+      botaoHorario.addEventListener(
+        "click",
+        () => {
+
+          document
+            .querySelector(
+              ".btn-horario.selecionado"
+            )
+            ?.classList.remove(
+              "selecionado"
+            );
+
+
+          botaoHorario.classList.add(
+            "selecionado"
+          );
+
+          horarioSelecionado =
+            horarioFormatado;
+
+
+          console.log(
+            `Horário selecionado: ${horarioSelecionado}`
+          );
+
+        }
+      );
+
+
+      containerListaHorarios.appendChild(
+        botaoHorario
+      );
     }
   }
 }

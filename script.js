@@ -4,9 +4,6 @@
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmcXZmaXF1aHR6enpmdXVibHRmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExOTk5NTcsImV4cCI6MjA5Njc3NTk1N30.nmk8hY_QDGLATFLn9eSqNbtWGRF_B-ff3icDCF_HFG0";
 
   let clienteSupabase = null;
-
-
-  let clienteSupabase = null;
   let inscricaoAuth = null;
 
   const MESES = [
@@ -14,111 +11,168 @@
     "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
   ];
 
-  function obterSupabase() {
-    if (clienteSupabase) return clienteSupabase;
+function obterSupabase() {
+  if (window.clienteSupabase) return window.clienteSupabase;
 
-    if (window.supabaseClient) {
-      clienteSupabase = window.supabaseClient;
-      return clienteSupabase;
-    }
-
-    const supabaseGlobal = window.supabase;
-    if (supabaseGlobal && typeof supabaseGlobal.createClient === "function") {
-      clienteSupabase = supabaseGlobal.createClient(SUPABASE_URL, SUPABASE_KEY);
-      window.supabaseClient = clienteSupabase;
-      return clienteSupabase;
-    }
-
-    console.error("❌ SDK do Supabase ainda não foi carregado na página.");
-    return null;
+  if (window.supabaseClient) {
+    window.clienteSupabase = window.supabaseClient;
+    return window.clienteSupabase;
   }
 
+  const supabaseGlobal = window.supabase;
+  if (supabaseGlobal && typeof supabaseGlobal.createClient === "function") {
+    window.clienteSupabase = supabaseGlobal.createClient(SUPABASE_URL, SUPABASE_KEY);
+    window.supabaseClient = window.clienteSupabase;
+    return window.clienteSupabase;
+  }
+
+  console.error("❌ SDK do Supabase ainda não foi carregado na página.");
+  return null;
+}
   /* =======================================
      CARREGAR AGENDAMENTO NO TOPO (PÁGINA INICIAL)
   ======================================= */
+async function carregarAgendamentoTopo(usuarioId) {
+  const containerAgendamentos = document.querySelector(".agendamentos");
 
-  async function carregarAgendamentoTopo(usuarioId) {
-    const containerAgendamentos = document.querySelector(".agendamentos");
-    if (!containerAgendamentos) return;
+  if (!containerAgendamentos) return;
 
-    if (!usuarioId) {
+  if (!usuarioId) {
+    containerAgendamentos.style.display = "none";
+    return;
+  }
+
+  const supabase = obterSupabase();
+
+  if (!supabase) {
+    console.error("❌ Supabase não disponível.");
+    return;
+  }
+
+  try {
+    // Data atual no formato YYYY-MM-DD
+    const hoje = new Date().toISOString().split("T")[0];
+
+    const { data: agendamentos, error } = await supabase
+      .from("agendamentos")
+      .select(`
+        id,
+        servico,
+        data,
+        horario,
+        status,
+        barbearias!agendamentos_barbearia_id_fkey (
+          id,
+          nome,
+          logo_url
+        )
+      `)
+      .eq("usuario_id", usuarioId)
+      .eq("status", "confirmado")
+      .gte("data", hoje)
+      .order("data", { ascending: true })
+      .order("horario", { ascending: true })
+      .limit(1);
+
+    if (error) {
+      console.error("❌ Erro ao carregar agendamento:", error);
       containerAgendamentos.style.display = "none";
       return;
     }
 
-    const supabase = obterSupabase();
-    if (!supabase) return;
+    console.log("📅 Próximo agendamento:", agendamentos);
 
-    try {
-      // Pega a data atual no formato YYYY-MM-DD para listar apenas agendamentos futuros ou de hoje
-      const hoje = new Date().toISOString().split("T")[0];
-
-      const { data: agendamentos, error } = await supabase
-        .from("agendamentos")
-        .select(`
-          id,
-          servico,
-          data,
-          horario,
-          status,
-          barbearia:barbearia_id (
-            nome,
-            logo_url
-          )
-        `)
-        .eq("usuario_id", usuarioId)
-        .eq("status", "confirmado")
-        .gte("data", hoje) // Traz apenas agendamentos a partir de hoje
-        .order("data", { ascending: true })
-        .order("horario", { ascending: true })
-        .limit(1);
-
-      if (error || !agendamentos || agendamentos.length === 0) {
-        containerAgendamentos.style.display = "none";
-        return;
-      }
-
-      const proximo = agendamentos[0];
-      
-      // Trata a string da data sem problemas de timezone (fuso horário local)
-      const partesData = (proximo.data || "").split("-");
-      const ano = partesData[0];
-      const mesIndex = parseInt(partesData[1], 10) - 1;
-      const dia = partesData[2] || "01";
-      const mesNome = MESES[mesIndex] || "";
-
-      // Ajuste das propriedades da barbearia (suporta tanto relação única quanto em array)
-      const barbeariaInfo = Array.isArray(proximo.barbearia) 
-        ? proximo.barbearia[0] 
-        : proximo.barbearia;
-
-      const logoUrl = barbeariaInfo?.logo_url || "./img/logo/imagem7.svg";
-      const nomeBarbearia = barbeariaInfo?.nome || "Barbearia";
-      const horarioFormatado = proximo.horario ? proximo.horario.substring(0, 5) : "";
-
-      containerAgendamentos.style.display = "block";
-      containerAgendamentos.innerHTML = `
-        <article class="card-agendamento">
-          <div class="lado-esquerdo">
-            <span class="status confirmado">Confirmado</span>
-            <h3>${proximo.servico}</h3>
-            <div class="barbearia-mini">
-              <img src="${logoUrl}" alt="${nomeBarbearia}" />
-              <span>${nomeBarbearia}</span>
-            </div>
-          </div>
-          <div class="lado-direito">
-            <span>${mesNome}</span>
-            <h2>${dia}</h2>
-            <span>${horarioFormatado}</span>
-          </div>
-        </article>
-      `;
-    } catch (err) {
-      console.error("Erro ao carregar agendamento no topo:", err);
+    // Nenhum agendamento encontrado
+    if (!agendamentos || agendamentos.length === 0) {
       containerAgendamentos.style.display = "none";
+      return;
     }
+
+    const proximo = agendamentos[0];
+
+    // Formatação da data
+    const partesData = (proximo.data || "").split("-");
+
+    const mesIndex = parseInt(partesData[1], 10) - 1;
+    const dia = partesData[2] || "01";
+    const mesNome = MESES[mesIndex] || "";
+
+    // Dados da barbearia
+    const barbeariaInfo = Array.isArray(proximo.barbearias)
+      ? proximo.barbearias[0]
+      : proximo.barbearias;
+
+    const nomeBarbearia =
+      barbeariaInfo?.nome || "Barbearia";
+
+    const logoUrl =
+      barbeariaInfo?.logo_url ||
+      "./img/logo/imagem7.svg";
+
+    const horarioFormatado =
+      proximo.horario
+        ? proximo.horario.substring(0, 5)
+        : "";
+
+    containerAgendamentos.style.display = "block";
+
+    containerAgendamentos.innerHTML = `
+      <article class="card-agendamento">
+
+        <div class="lado-esquerdo">
+
+          <span class="status confirmado">
+            Confirmado
+          </span>
+
+          <h3>
+            ${proximo.servico || "Serviço"}
+          </h3>
+
+          <div class="barbearia-mini">
+
+            <img
+              src="${logoUrl}"
+              alt="${nomeBarbearia}"
+              onerror="this.onerror=null; this.src='./img/logo/imagem7.svg';"
+            />
+
+            <span>
+              ${nomeBarbearia}
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="lado-direito">
+
+          <span>
+            ${mesNome}
+          </span>
+
+          <h2>
+            ${dia}
+          </h2>
+
+          <span>
+            ${horarioFormatado}
+          </span>
+
+        </div>
+
+      </article>
+    `;
+
+  } catch (err) {
+    console.error(
+      "❌ Erro inesperado ao carregar agendamento:",
+      err
+    );
+
+    containerAgendamentos.style.display = "none";
   }
+}
 
   /* =======================================
      DATA DO CABEÇALHO
